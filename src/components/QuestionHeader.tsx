@@ -1,5 +1,6 @@
 const QuestionHeader = () => {
     return (
+        // flex-grow로 남은 크기 전부 차지
         <div className="flex w-full border-b-2 border-black">
             <h1 className="text-2xl font-extrabold mx-3 my-1">Q :</h1>
             <input
