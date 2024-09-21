@@ -17,8 +17,6 @@ const App = () => {
           <h1 className="text-2xl font-bold mx-8 my-5">설문 제작</h1>
         </div>
         <Question />
-        <Question />
-        <Question />
       </main>
     </div>
   );
