@@ -1,12 +1,16 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import AddOptionButton from "../../buttons/AddOptionButton";
 import FinishQuestionButton from "../../buttons/FinishQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import Option from "./Option";
 import QuestionHeader from "./QuestionHeader";
 
-// multiple-choice question
-const MCQuestion = () => {
+interface MCQuestionProps {
+    id: number; // 고유한 ID
+    onDelete: (id: number) => void; // 삭제 함수
+}
+
+const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
     const [options, updateOptions] = useState<number[]>([]); // 숫자로 고유한 index 관리
 
     const addOption = () => {
@@ -22,10 +26,8 @@ const MCQuestion = () => {
     };
 
     return (
-        <div className="flex border-[3px] border-black my-4 rounded-md" style={{ height: `4 + ${options.length + AddOptionButton.length + FinishQuestionButton.length}rem` }}> {/* 높이 설정 */}
-            <div className="w-1/6 border-[4px] border-red-500">
-                사진
-            </div>
+        <div className="flex border-[3px] border-black my-4 rounded-md">
+            <div className="w-1/6 border-[4px] border-red-500">사진</div>
             <div className="flex-grow border-[4px] border-green-500">
                 <QuestionHeader />
 
@@ -42,10 +44,10 @@ const MCQuestion = () => {
                 </div>
 
                 <AddOptionButton onClick={addOption} />
-                {options.length > 0 && <FinishQuestionButton />} {/* options.length가 1 이상일 때 FinishButton 렌더링 */}
+                {options.length > 0 && <FinishQuestionButton />}
             </div>
             <div className="w-1/8 border-[4px]">
-                <DeleteQuestionButton onClick={() => updateOptions([])} />
+                <DeleteQuestionButton onClick={() => onDelete(id)} /> {/* 고유 ID로 삭제 */}
             </div>
         </div>
     );

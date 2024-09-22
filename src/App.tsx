@@ -1,39 +1,33 @@
 import { useState } from "react";
-import Nav from "./components/Nav"
-import Header from "./components/Header"
+import Nav from "./components/Nav";
+import Header from "./components/Header";
 import ParticipantFilter from "./components/filter/ParticipantFilter";
 import MCQuestion from "./components/question/MCQuestion";
 import SAQuestion from "./components/question/SAQuestion";
 import NewQuestionButton from "./buttons/NewQuestionButton";
 
 const App = () => {
-
-  const [questions, updateQuestions] = useState<JSX.Element[]>([]);
+  const [questions, updateQuestions] = useState<{ id: number; type: string }[]>([]); // 고유한 ID와 타입 저장
+  const [questionCount, setQuestionCount] = useState(0); // 고유한 ID 생성을 위한 카운트
 
   const addQuestions = (type: string) => {
     if (questions.length < 10) {
-      // 새로운 Option 컴포넌트 생성
-
-      let newQuestion;
-      if (type === "MC") {
-        newQuestion = (
-          <MCQuestion key={questions.length} />
-        );
-      } else {
-        newQuestion = (
-          <SAQuestion key={questions.length} />
-        );
-      }
-
-      updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]); // 새로운 옵션 추가
+      const newQuestion = { id: questionCount, type }; // 고유한 ID와 타입 저장
+      setQuestionCount((prevCount) => prevCount + 1);
+      updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
     }
-  }
+  };
+
+  const deleteQuestion = (id: number) => {
+    const newQuestions = questions.filter((q) => q.id !== id); // 고유한 ID로 삭제
+    updateQuestions(newQuestions);
+  };
 
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
       <Header />
-      <main className='px-[20vw]'>
+      <main className="px-[20vw]">
         <div>
           <h1 className="text-2xl font-bold mx-8 my-5">조건 설정</h1>
           <ParticipantFilter />
@@ -43,19 +37,22 @@ const App = () => {
           <h1 className="text-2xl font-bold mx-8 my-5">설문 제작</h1>
         </div>
 
-        <div className="border-[3px] border-black my-4 rounded-md" style={{ height: `4 + ${questions.length * SAQuestion.length}rem` }}> {/* 높이 설정 */}
-
+        <div className="border-[3px] border-black my-4 rounded-md">
           <div>
             {questions.map((question) => (
-              <div key={question.key} className="border-b border-gray-300 py-2">
-                {question}
+              <div key={question.id} className="border-b border-gray-300 py-2">
+                {question.type === "MC" ? (
+                  <MCQuestion id={question.id} onDelete={deleteQuestion} />
+                ) : (
+                  <SAQuestion id={question.id} onDelete={deleteQuestion} />
+                )}
               </div>
             ))}
           </div>
 
           <div className="flex justify-between border-[5px] border-yellow-500">
-            <NewQuestionButton name='객관식' onClick={() => addQuestions("MC")} />
-            <NewQuestionButton name='주관식' onClick={() => addQuestions("SA")} />
+            <NewQuestionButton name="객관식" onClick={() => addQuestions("MC")} />
+            <NewQuestionButton name="주관식" onClick={() => addQuestions("SA")} />
           </div>
         </div>
       </main>
