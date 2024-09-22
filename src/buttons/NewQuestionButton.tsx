@@ -3,7 +3,7 @@ interface NewButtonProp {
     onClick: () => void;
 }
 
-const NewButton: React.FC<NewButtonProp> = ({ name, onClick }) => {
+const NewQuestionButton: React.FC<NewButtonProp> = ({ name, onClick }) => {
     return (
         // 부모의 반절만 차지
         // 버튼은 w-full로 최대한의 너비 차지
@@ -18,4 +18,4 @@ const NewButton: React.FC<NewButtonProp> = ({ name, onClick }) => {
     );
 };
 
-export default NewButton;
+export default NewQuestionButton;

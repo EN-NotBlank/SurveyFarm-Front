@@ -1,10 +1,12 @@
 import React, { useState } from "react";
-import AddButton from "../buttons/AddButton";
-import QuestionHeader from "./QuestionHeader";
+import AddOptionButton from "../../buttons/AddOptionButton";
+import FinishQuestionButton from "../../buttons/FinishQuestionButton";
+import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import Option from "./Option";
-import FinishButton from "../buttons/FinishButton";
+import QuestionHeader from "./QuestionHeader";
 
-const Question = () => {
+// multiple-choice question
+const MCQuestion = () => {
     const [options, updateOptions] = useState<JSX.Element[]>([]);
 
     const addOption = () => {
@@ -30,11 +32,11 @@ const Question = () => {
     }
 
     return (
-        <div className="flex border-[3px] border-black my-4 rounded-md" style={{ height: `4 + ${options.length + AddButton.length + FinishButton.length}rem` }}> {/* 높이 설정 */}
+        <div className="flex border-[3px] border-black my-4 rounded-md" style={{ height: `4 + ${options.length + AddOptionButton.length + FinishQuestionButton.length}rem` }}> {/* 높이 설정 */}
             <div className="w-1/6 border-[4px] border-red-500">
                 사진
             </div>
-            <div className="w-5/6 border-[4px] border-green-500">
+            <div className="flex-grow border-[4px] border-green-500">
                 <QuestionHeader />
 
                 <div>
@@ -45,11 +47,14 @@ const Question = () => {
                     ))}
                 </div>
 
-                <AddButton onClick={addOption} />
-                {options.length > 0 && <FinishButton />} {/* options.length가 1 이상일 때 FinishButton 렌더링 */}
+                <AddOptionButton onClick={addOption} />
+                {options.length > 0 && <FinishQuestionButton />} {/* options.length가 1 이상일 때 FinishButton 렌더링 */}
+            </div>
+            <div className="w-1/8 border-[4px]">
+                <DeleteQuestionButton onClick={() => deleteOption} />
             </div>
         </div>
     );
 };
 
-export default Question;
+export default MCQuestion;

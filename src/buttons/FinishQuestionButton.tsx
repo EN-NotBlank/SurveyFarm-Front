@@ -1,4 +1,4 @@
-const FinishButton = () => {
+const FinishQuestionButton = () => {
     return (
         <div className="px-2 py-2">
             <button
@@ -10,4 +10,4 @@ const FinishButton = () => {
     );
 };
 
-export default FinishButton;
+export default FinishQuestionButton;

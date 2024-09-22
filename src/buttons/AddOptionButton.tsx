@@ -2,7 +2,7 @@ interface AddButtonProp {
     onClick: () => void;
 }
 
-const AddButton: React.FC<AddButtonProp> = ({ onClick }) => {
+const AddOptionButton: React.FC<AddButtonProp> = ({ onClick }) => {
     return (
         <div className="px-2 py-3">
             <button
@@ -15,4 +15,4 @@ const AddButton: React.FC<AddButtonProp> = ({ onClick }) => {
     );
 };
 
-export default AddButton;
+export default AddOptionButton;
