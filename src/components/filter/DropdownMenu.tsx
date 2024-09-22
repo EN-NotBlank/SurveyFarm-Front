@@ -35,7 +35,7 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
 
             {/* 드롭다운 메뉴 */}
             {isOpen && (
-                <div className="absolute mt-2 w-[30vw] bg-white border border-gray-300 rounded-md shadow-lg z-10">
+                <div className="absolute mt-2 w-[25vw] bg-white border border-gray-300 rounded-md shadow-lg z-10">
                     <div className="grid grid-cols-4 gap-2 p-2">
                         {options.map((option) => (
                             <div
