@@ -1,6 +1,7 @@
 interface OptionProp {
     index: number;
-    onDelete: () => void;
+    // 매개변수가 없는 함수이고 return도 void다
+    onDelete: (index: number) => void;
 }
 
 const Option: React.FC<OptionProp> = ({ index, onDelete }) => {
@@ -9,6 +10,7 @@ const Option: React.FC<OptionProp> = ({ index, onDelete }) => {
             <h1 className="text-xl font-bold px-2">
                 {index}
             </h1>
+
             <input
                 id="in"
                 type="text"
@@ -16,8 +18,9 @@ const Option: React.FC<OptionProp> = ({ index, onDelete }) => {
                 placeholder="선택지를 입력하세요"
                 required
             ></input>
+
             {/* ml-auto로 옆으로 붙이고 마진 줘서 조금 띄워주기*/}
-            <button onClick={onDelete} className="ml-auto mx-5">
+            <button className="ml-auto mx-5" onClick={() => onDelete(index)}>
                 삭제
             </button>
         </div>

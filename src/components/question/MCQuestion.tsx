@@ -15,8 +15,8 @@ const MCQuestion = () => {
             const newOption = (
                 <Option
                     key={options.length}
-                    index={options.length + 1}
-                    onDelete={() => deleteOption(options.length)}
+                    index={options.length}
+                    onDelete={deleteOption}
                 />
             );
 
@@ -25,11 +25,15 @@ const MCQuestion = () => {
     };
 
     const deleteOption = (index: number) => {
-        // 새로운 배열을 만들어서 특정 인덱스를 제거
+        // 배열에서 특정 조건이 만족하는 원소들만 추출하여 새로운 배열을 만든다.
+        // filter 함수를 통해 만족하는 경우: 새로운 배열을 만들어서 그 배열에 넣는다.
+        // filter 함수를 통해 만족하지 않는 경우: 넣지 않는다.
+        // map 
         const newOptions = options.filter((_, i) => i !== index);
+
+        // 새로운 Option 배열로 상태를 업데이트
         updateOptions(newOptions);
-        // console.log(options);
-    }
+    };
 
     return (
         <div className="flex border-[3px] border-black my-4 rounded-md" style={{ height: `4 + ${options.length + AddOptionButton.length + FinishQuestionButton.length}rem` }}> {/* 높이 설정 */}
