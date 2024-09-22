@@ -28,12 +28,12 @@ const App = () => {
       <Nav />
       <Header />
       <main className="px-[20vw]">
-        <div>
+        <div className="border-b-2 border-black py-4">
           <h1 className="text-2xl font-bold mx-8 my-5">조건 설정</h1>
           <ParticipantFilter />
         </div>
 
-        <div>
+        <div className="border-b-2 border-black">
           <h1 className="text-2xl font-bold mx-8 my-5">설문 제작</h1>
         </div>
 
