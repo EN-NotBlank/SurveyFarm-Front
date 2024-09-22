@@ -19,8 +19,10 @@ const App = () => {
   };
 
   const deleteQuestion = (id: number) => {
-    const newQuestions = questions.filter((q) => q.id !== id); // 고유한 ID로 삭제
-    updateQuestions(newQuestions);
+    if (window.confirm("해당 질문을 삭제하시겠습니까?")) {
+      const newQuestions = questions.filter((q) => q.id !== id); // 고유한 ID로 삭제
+      updateQuestions(newQuestions);
+    }
   };
 
   return (
@@ -37,7 +39,7 @@ const App = () => {
           <h1 className="text-2xl font-bold mx-8 my-5">설문 제작</h1>
         </div>
 
-        <div className="border-[3px] border-black my-4 rounded-md">
+        <div className="border-[3px] my-4 rounded-md">
           <div>
             {questions.map((question) => (
               <div key={question.id} className="border-b border-gray-300 py-2">
@@ -50,10 +52,15 @@ const App = () => {
             ))}
           </div>
 
-          <div className="flex justify-between border-[5px] border-yellow-500">
+          <div className="flex justify-between border-[5px]">
             <NewQuestionButton name="객관식" onClick={() => addQuestions("MC")} />
             <NewQuestionButton name="주관식" onClick={() => addQuestions("SA")} />
           </div>
+        </div>
+        <div className="flex justify-end">
+          <button className="bg-cyan-950 w-[7vw] text-white font-extrabold px-4 py-2 rounded-md">
+            의뢰하기
+          </button>
         </div>
       </main>
     </div>

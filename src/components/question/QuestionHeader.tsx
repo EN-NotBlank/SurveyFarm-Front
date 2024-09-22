@@ -5,12 +5,14 @@ interface QuestionHeaderProp {
 const QuestionHeader: React.FC<QuestionHeaderProp> = ({ isDisabled }) => {
     return (
         // flex-grow로 남은 크기 전부 차지
-        <div className="flex w-full border-b-2 border-black">
-            <h1 className="text-2xl font-extrabold mx-3 my-1">Q :</h1>
+        <div className="flex w-full border-b-2 my-1">
+            <div className="mx-3 my-1">
+                <img src="https://cdn-icons-png.flaticon.com/128/3524/3524354.png" className="h-5 w-5" />
+            </div>
             <input
-                id="in"
+                id="input"
                 type="text"
-                className="flex-grow text-sm my-0.5 leading-none font-medium border border-gray-300 dark:border-gray-600 rounded-md px-2 focus:outline-none focus:border-blue-500 dark:focus:border-white dark:bg-gray-800 dark:text-white"
+                className="flex-grow h-7 text-sm mx-2 leading-none font-medium border border-gray-300 rounded-md px-2 focus:outline-none focus:border-blue-500"
                 placeholder="질문을 입력하세요"
                 required
                 disabled={isDisabled}

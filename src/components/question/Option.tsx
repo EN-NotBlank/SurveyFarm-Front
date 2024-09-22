@@ -14,7 +14,7 @@ const Option: React.FC<OptionProp> = ({ index, onDelete, disabled }) => {
             <input
                 id="in"
                 type="text"
-                className="w-3/5 mx-2 text-sm leading-none font-medium border border-gray-300 dark:border-gray-600 rounded-md px-2 focus:outline-none focus:border-blue-500 dark:focus:border-white dark:bg-gray-800 dark:text-white"
+                className="w-3/5 mx-2 text-sm leading-none font-medium border border-gray-300 rounded-md px-2 focus:outline-none focus:border-blue-500"
                 placeholder="선택지를 입력하세요"
                 required
                 disabled={disabled}

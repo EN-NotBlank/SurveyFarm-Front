@@ -17,11 +17,11 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
     };
 
     return (
-        <div className="flex border-[3px] border-black my-4 rounded-md">
-            <div className="w-1/6 border-[4px] border-red-500">
+        <div className="flex border-[3px] my-4 rounded-md">
+            <div className="w-1/6 border-[4px]">
                 <img src="https://upload.wikimedia.org/wikipedia/ko/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png" className="w-full h-auto" />
             </div>
-            <div className="flex-grow border-[4px] border-green-500">
+            <div className="flex-grow border-[4px]">
                 <QuestionHeader isDisabled={isDisabled} />
                 <div className="px-2 py-2">
                     <textarea

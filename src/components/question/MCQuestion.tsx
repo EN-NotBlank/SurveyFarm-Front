@@ -19,6 +19,8 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
         if (options.length < 8) {
             const newOptionIndex = options.length === 0 ? 0 : Math.max(...options) + 1;
             updateOptions((prevOptions) => [...prevOptions, newOptionIndex]); // 새로운 옵션 추가
+        } else {
+            window.alert("선택지는 8개 이하만 가능합니다!");
         }
     };
 
@@ -36,8 +38,8 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
     };
 
     return (
-        <div className="flex border-[3px] border-black my-4 rounded-md">
-            <div className="w-1/6 border-[4px] border-red-500">
+        <div className="flex border-[3px] my-4 rounded-md">
+            <div className="w-1/6 border-[4px]">
                 <img src="https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg" className="w-full h-auto" />
                 <div className="flex px-2 py-2 mt-auto">
                     <input
@@ -51,7 +53,7 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
                 </div>
             </div>
 
-            <div className="flex-grow border-[4px] border-green-500">
+            <div className="flex-grow border-[4px]">
                 <QuestionHeader isDisabled={isDisabled} />
 
                 <div>

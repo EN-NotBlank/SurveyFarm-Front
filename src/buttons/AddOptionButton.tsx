@@ -7,7 +7,7 @@ const AddOptionButton: React.FC<AddButtonProp> = ({ onClick, disabled }) => {
     return (
         <div className="px-2 py-3">
             <button
-                className="w-full px-3 h-[8vh] bg-gray-400 text-white py-2 rounded-md"
+                className="w-full px-3 h-[8vh] bg-slate-300 text-white py-2 rounded-md"
                 onClick={onClick}
                 disabled={disabled}
             >
