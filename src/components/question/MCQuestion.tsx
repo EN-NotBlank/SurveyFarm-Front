@@ -4,6 +4,7 @@ import FinishQuestionButton from "../../buttons/FinishQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import Option from "./Option";
 import QuestionHeader from "./QuestionHeader";
+import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface MCQuestionProps {
     id: number; // Question의 고유한 ID
@@ -71,10 +72,13 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
                 </div>
 
                 <AddOptionButton onClick={addOption} disabled={isDisabled} />
-                {options.length > 0 && <FinishQuestionButton isFinished={isDisabled} onFinish={handleQuestionStatus} />}
+                {options.length > 0 && !isDisabled && (
+                    <FinishQuestionButton isFinished={isDisabled} onFinish={handleQuestionStatus} />
+                )}
             </div>
 
-            <div className="w-1/8 border-[4px]">
+            <div className="flex w-1/8 border-[4px]">
+                {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}
                 <DeleteQuestionButton onClick={() => onDelete(id)} /> {/* 고유 ID로 삭제 */}
             </div>
         </div>

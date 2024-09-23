@@ -2,6 +2,7 @@ import { useState } from "react";
 import FinishQuestionButton from "../../buttons/FinishQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import QuestionHeader from "./QuestionHeader";
+import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface SAQuestionProps {
     id: number; // 고유한 ID
@@ -37,7 +38,8 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
                 </div>
                 <FinishQuestionButton isFinished={isDisabled} onFinish={handleQuestionStatus} />
             </div>
-            <div className="w-1/8 border-[4px]">
+            <div className="flex w-1/8 border-[4px]">
+                {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}
                 <DeleteQuestionButton onClick={() => onDelete(id)} /> {/* 고유 ID로 삭제 */}
             </div>
         </div>

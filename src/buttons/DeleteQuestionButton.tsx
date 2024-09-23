@@ -4,9 +4,9 @@ interface DeleteButtonProp {
 
 const DeleteQuestionButton: React.FC<DeleteButtonProp> = ({ onClick }) => {
     return (
-        <div className="h-full">
+        <div>
             <button
-                className="w-full h-full bg-red-600 text-white py-2 px-7 rounded-md"
+                className="w-8 h-8 bg-red-600 text-white rounded-md"
                 onClick={onClick}
             >
                 X
