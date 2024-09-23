@@ -32,6 +32,7 @@ const App = () => {
     }
   };
 
+  // 여기다 서버로 보내는거 써야되는데 지금 일단 확인용으로 console에 찍자
   const handleSubmit = () => {
     console.log(selectedRegion);
     console.log(selectedJob);
@@ -54,6 +55,18 @@ const App = () => {
             onAgeChange={setSelectedAge}
             onCntChange={setSelectedCnt}
           />
+        </div>
+
+        <div className="border-b-2 border-black">
+          <h1 className="text-2xl font-bold mx-8 my-5">설문 소개</h1>
+          <textarea
+            name="introduction"
+            id="introduction"
+            rows={10}
+            required
+            placeholder="설문에 대한 간략한 설명을 해주세요"
+            className="w-full mb-5 rounded-lg bg-black bg-opacity-5 border-2 border-solid border-black border-opacity-10 font-mono font-medium text-base"
+          ></textarea>
         </div>
 
         <div className="border-b-2 border-black">

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import FinishQuestionButton from "../../buttons/FinishQuestionButton";
+import SaveQuestionButton from "../../buttons/SaveQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import QuestionHeader from "./QuestionHeader";
 import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
@@ -36,7 +36,9 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
                         className="w-full rounded-lg bg-black bg-opacity-5 border-2 border-solid border-black border-opacity-10 font-mono font-medium text-sm"
                     ></textarea>
                 </div>
-                <FinishQuestionButton isFinished={isDisabled} onFinish={handleQuestionStatus} />
+                {!isDisabled && (
+                    <SaveQuestionButton onSaveClicked={handleQuestionStatus} />
+                )}
             </div>
             <div className="flex w-1/8 border-[4px]">
                 {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}

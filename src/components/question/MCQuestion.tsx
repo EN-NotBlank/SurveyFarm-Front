@@ -1,6 +1,6 @@
 import { useState } from "react";
 import AddOptionButton from "../../buttons/AddOptionButton";
-import FinishQuestionButton from "../../buttons/FinishQuestionButton";
+import SaveQuestionButton from "../../buttons/SaveQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import Option from "./Option";
 import QuestionHeader from "./QuestionHeader";
@@ -73,7 +73,7 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
 
                 <AddOptionButton onClick={addOption} disabled={isDisabled} />
                 {options.length > 0 && !isDisabled && (
-                    <FinishQuestionButton isFinished={isDisabled} onFinish={handleQuestionStatus} />
+                    <SaveQuestionButton onSaveClicked={handleQuestionStatus} />
                 )}
             </div>
 
