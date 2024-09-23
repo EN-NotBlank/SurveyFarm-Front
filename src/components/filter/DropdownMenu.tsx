@@ -2,12 +2,13 @@ import React, { useState } from 'react';
 
 interface DropdownMenuProps {
     name: string;
-    options: string[];  // 메뉴에 나타낼 옵션 목록
+    options: string[];
     isOpen: boolean;
     onToggle: () => void;
+    onApply: (selected: string[]) => void;  // 선택된 옵션을 부모에게 전달하는 콜백 함수
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onToggle }) => {
+const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onToggle, onApply }) => {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
     const handleSelect = (option: string) => {
@@ -19,7 +20,8 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
     };
 
     const handleApply = () => {
-        onToggle(); // 해당 메뉴 닫기
+        onApply(selectedOptions);  // 선택된 옵션을 부모 컴포넌트에 전달
+        onToggle(); // 드롭다운 닫기
     };
 
     const handleReset = () => {
@@ -28,7 +30,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
 
     return (
         <div className="relative inline-block text-left">
-            {/* 드롭다운 토글 버튼 */}
             <button onClick={onToggle} className="flex justify-between w-[5vw] text-white px-3 py-2 rounded-md" style={{ backgroundColor: '#577FF8' }}>
                 {name}
                 <img src={isOpen
@@ -38,7 +39,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
                 />
             </button>
 
-            {/* 드롭다운 메뉴 */}
             {isOpen && (
                 <div className="absolute mt-2 w-[25vw] bg-white border border-gray-300 rounded-md shadow-lg z-10">
                     <div className="grid grid-cols-4 gap-2 p-2">
@@ -56,7 +56,6 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
                         ))}
                     </div>
 
-                    {/* 초기화, 적용하기 버튼 */}
                     <div className="flex justify-center space-x-2 py-5 border-t border-gray-300">
                         <button
                             onClick={handleReset}

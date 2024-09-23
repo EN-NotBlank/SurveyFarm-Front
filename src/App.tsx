@@ -10,6 +10,13 @@ const App = () => {
   const [questions, updateQuestions] = useState<{ id: number; type: string }[]>([]); // 고유한 ID와 타입 저장
   const [questionCount, setQuestionCount] = useState(0); // 고유한 ID 생성을 위한 카운트
 
+  // ParticipantFilter에서 선택된 값을 저장할 상태
+  const [selectedRegion, setSelectedRegion] = useState<string[]>([]);
+  const [selectedJob, setSelectedJob] = useState<string[]>([]);
+  const [selectedGender, setSelectedGender] = useState<string[]>([]);
+  const [selectedAge, setSelectedAge] = useState<string[]>([]);
+  const [selectedCnt, setSelectedCnt] = useState<string[]>([]);
+
   const addQuestions = (type: string) => {
     if (questions.length < 10) {
       const newQuestion = { id: questionCount, type }; // 고유한 ID와 타입 저장
@@ -25,6 +32,14 @@ const App = () => {
     }
   };
 
+  const handleSubmit = () => {
+    console.log(selectedRegion);
+    console.log(selectedJob);
+    console.log(selectedGender);
+    console.log(selectedAge);
+    console.log(selectedCnt);
+  };
+
   return (
     <div className="min-h-screen bg-gray-100">
       <Nav />
@@ -32,7 +47,13 @@ const App = () => {
       <main className="px-[20vw]">
         <div className="border-b-2 border-black py-4">
           <h1 className="text-2xl font-bold mx-8 my-5">조건 설정</h1>
-          <ParticipantFilter />
+          <ParticipantFilter
+            onRegionChange={setSelectedRegion}
+            onJobChange={setSelectedJob}
+            onGenderChange={setSelectedGender}
+            onAgeChange={setSelectedAge}
+            onCntChange={setSelectedCnt}
+          />
         </div>
 
         <div className="border-b-2 border-black">
@@ -58,7 +79,10 @@ const App = () => {
           </div>
         </div>
         <div className="flex justify-end">
-          <button className="bg-cyan-950 w-[7vw] text-white font-extrabold px-4 py-2 rounded-md">
+          <button
+            onClick={handleSubmit} // 의뢰하기 버튼 클릭 시 서버로 데이터 전송
+            className="bg-cyan-950 w-[7vw] text-white font-extrabold px-4 py-2 rounded-md"
+          >
             의뢰하기
           </button>
         </div>
