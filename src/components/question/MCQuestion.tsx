@@ -40,7 +40,8 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
     return (
         <div className="flex border-[3px] my-4 rounded-md">
             <div className="w-1/6 border-[4px]">
-                <img src="https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg" className="w-full h-auto" />
+                {/*<img src="https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg" className="w-full h-auto" />*/}
+                <img src="https://cdn-icons-png.freepik.com/512/5471/5471074.png" className="w-full h-auto" />
                 <div className="flex px-2 py-2 mt-auto">
                     <input
                         id="redCheckBox"

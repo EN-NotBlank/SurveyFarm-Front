@@ -6,6 +6,7 @@ const ParticipantFilter: React.FC = () => {
     const jobMenu = ['전체', '기획', '법조', '인사', '회계', '마케팅', '개발', '디자인', '물류/무역', '배송업', '영업', '고객상담', '금융/보험', '요식업', '서비스업', '설계', '제조업', '교육', '건축', '의료', '스포츠', '공공/복지', '학생'];
     const genderMenu = ['남자', '여자'];
     const ageMenu = ['초등학생', '중학생', '고등학생', '대학생', '10대', '20대', '30대', '40대', '50대', '60대', '70대'];
+    const cntMenu = ['100명', '500명', '1000명', '2000명', '5000명', '10000명'];
 
     const [openedMenu, setOpenedMenu] = useState<string | null>(null);
 
@@ -41,10 +42,17 @@ const ParticipantFilter: React.FC = () => {
             />
 
             <DropdownMenu
-                name="연령대"
+                name="연령"
                 options={ageMenu}
-                isOpen={openedMenu === '연령대'}
-                onToggle={() => handleMenuToggle('연령대')}
+                isOpen={openedMenu === '연령'}
+                onToggle={() => handleMenuToggle('연령')}
+            />
+
+            <DropdownMenu
+                name="인원"
+                options={cntMenu}
+                isOpen={openedMenu === '인원'}
+                onToggle={() => handleMenuToggle('인원')}
             />
         </div>
     );

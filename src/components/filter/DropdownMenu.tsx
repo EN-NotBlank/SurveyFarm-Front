@@ -29,8 +29,13 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
     return (
         <div className="relative inline-block text-left">
             {/* 드롭다운 토글 버튼 */}
-            <button onClick={onToggle} className="bg-blue-500 w-[5vw] text-white px-4 py-2 rounded-md">
+            <button onClick={onToggle} className="flex justify-between w-[5vw] text-white px-3 py-2 rounded-md" style={{ backgroundColor: '#577FF8' }}>
                 {name}
+                <img src={isOpen
+                    ? "https://cdn-icons-png.flaticon.com/128/3385/3385656.png"
+                    : "https://cdn-icons-png.flaticon.com/128/32/32195.png"}
+                    className="w-4 h-4 my-1"
+                />
             </button>
 
             {/* 드롭다운 메뉴 */}
