@@ -5,7 +5,7 @@ interface QuestionHeaderProp {
 const QuestionHeader: React.FC<QuestionHeaderProp> = ({ isDisabled }) => {
     return (
         // flex-grow로 남은 크기 전부 차지
-        <div className="flex w-full border-b-2 my-1">
+        <div className="flex w-full my-1">
             <div className="mx-3 my-1">
                 <img src="https://cdn-icons-png.flaticon.com/128/3524/3524354.png" className="h-5 w-5" />
             </div>

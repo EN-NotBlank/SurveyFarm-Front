@@ -6,10 +6,10 @@ const ChangeQuestionButton: React.FC<ChangeButtonProp> = ({ onClick }) => {
     return (
         <div>
             <button
-                className="w-8 h-8 bg-blue-400 text-white rounded-md"
+                className="w-6 h-6 bg-inherit rounded-md mx-2"
                 onClick={onClick}
             >
-                C
+                <img src="https://cdn-icons-png.flaticon.com/128/12108/12108481.png" />
             </button>
         </div>
     );

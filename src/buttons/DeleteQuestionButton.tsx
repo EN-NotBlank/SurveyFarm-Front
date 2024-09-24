@@ -6,10 +6,10 @@ const DeleteQuestionButton: React.FC<DeleteButtonProp> = ({ onClick }) => {
     return (
         <div>
             <button
-                className="w-8 h-8 bg-red-600 text-white rounded-md"
+                className="w-5 h-6 bg-inherit rounded-md mx-2"
                 onClick={onClick}
             >
-                X
+                <img src="https://cdn-icons-png.flaticon.com/128/5918/5918065.png" />
             </button>
         </div>
     );

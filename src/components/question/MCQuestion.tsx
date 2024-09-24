@@ -8,10 +8,10 @@ import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface MCQuestionProps {
     id: number; // Question의 고유한 ID
-    onDelete: (id: number) => void;
+    onDeleteClick: (id: number) => void;
 }
 
-const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
+const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick }) => {
     const [options, updateOptions] = useState<number[]>([]); // 선택지 관리
     const [isChecked, setIsChecked] = useState<boolean>(true); // 체크박스 관리
     const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
@@ -39,10 +39,9 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
     };
 
     return (
-        <div className="flex border-[3px] my-4 rounded-md">
-            <div className="w-1/6 border-[4px]">
-                {/*<img src="https://sitem.ssgcdn.com/87/70/47/item/1000026477087_i1_750.jpg" className="w-full h-auto" />*/}
-                <img src="https://cdn-icons-png.freepik.com/512/5471/5471074.png" className="w-full h-auto" />
+        <div className="flex my-4 rounded-md">
+            <div className="w-1/6">
+                <img src="https://cdn-icons-png.flaticon.com/128/8371/8371275.png" className="w-full h-auto" />
                 <div className="flex px-2 py-2 mt-auto">
                     <input
                         id="redCheckBox"
@@ -55,12 +54,12 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
                 </div>
             </div>
 
-            <div className="flex-grow border-[4px]">
+            <div className="flex-grow">
                 <QuestionHeader isDisabled={isDisabled} />
 
                 <div>
                     {options.map((option, idx) => (
-                        <div key={option} className="border-b border-gray-300 py-2">
+                        <div key={option} className="py-2">
                             <Option
                                 key={option} // 고유한 key값을 그대로 유지
                                 index={idx + 1} // 인덱스는 1부터 증가하는 값을 유지
@@ -77,9 +76,9 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDelete }) => {
                 )}
             </div>
 
-            <div className="flex w-1/8 border-[4px]">
+            <div className="flex w-1/8 py-1">
                 {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}
-                <DeleteQuestionButton onClick={() => onDelete(id)} /> {/* 고유 ID로 삭제 */}
+                <DeleteQuestionButton onClick={() => onDeleteClick(id)} /> {/* 고유 ID로 삭제 */}
             </div>
         </div>
     );

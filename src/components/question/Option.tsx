@@ -20,13 +20,15 @@ const Option: React.FC<OptionProp> = ({ index, onDelete, disabled }) => {
                 disabled={disabled}
             ></input>
 
-            <button
-                className="ml-auto mx-5"
-                onClick={onDelete}
-                disabled={disabled}
-            >
-                <img src="https://cdn-icons-png.flaticon.com/128/8001/8001499.png" className="h-3 w-3" />
-            </button>
+            {!disabled && (
+                <button
+                    className="ml-auto mx-5"
+                    onClick={onDelete}
+                    disabled={disabled}
+                >
+                    <img src="https://cdn-icons-png.flaticon.com/128/8001/8001499.png" className="h-3 w-3" />
+                </button>
+            )}
         </div>
     );
 };

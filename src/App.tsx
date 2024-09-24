@@ -17,7 +17,7 @@ const App = () => {
   const [selectedAge, setSelectedAge] = useState<string[]>([]);
   const [selectedCnt, setSelectedCnt] = useState<string[]>([]);
 
-  const addQuestions = (type: string) => {
+  const handleNewQuestions = (type: string) => {
     if (questions.length < 10) {
       const newQuestion = { id: questionCount, type }; // 고유한 ID와 타입 저장
       setQuestionCount((prevCount) => prevCount + 1);
@@ -25,7 +25,7 @@ const App = () => {
     }
   };
 
-  const deleteQuestion = (id: number) => {
+  const handleDeleteQuestion = (id: number) => {
     if (window.confirm("해당 질문을 삭제하시겠습니까?")) {
       const newQuestions = questions.filter((q) => q.id !== id); // 고유한 ID로 삭제
       updateQuestions(newQuestions);
@@ -64,8 +64,8 @@ const App = () => {
             id="introduction"
             rows={10}
             required
-            placeholder="설문에 대한 간략한 설명을 해주세요"
-            className="w-full mb-5 rounded-lg bg-black bg-opacity-5 border-2 border-solid border-black border-opacity-10 font-mono font-medium text-base"
+            placeholder="설문에 대한 간략한 설명을 적어주세요"
+            className="w-full mb-5 rounded-lg bg-white border-2 border-solid border-black border-opacity-10 font-mono font-medium text-base"
           ></textarea>
         </div>
 
@@ -73,24 +73,25 @@ const App = () => {
           <h1 className="text-2xl font-bold mx-8 my-5">설문 제작</h1>
         </div>
 
-        <div className="border-[3px] my-4 rounded-md">
+        <div className="my-4 rounded-md">
           <div>
             {questions.map((question) => (
-              <div key={question.id} className="border-b border-gray-300 py-2">
+              <div key={question.id} className="border-b border-black py-2">
                 {question.type === "MC" ? (
-                  <MCQuestion id={question.id} onDelete={deleteQuestion} />
+                  <MCQuestion id={question.id} onDeleteClick={handleDeleteQuestion} />
                 ) : (
-                  <SAQuestion id={question.id} onDelete={deleteQuestion} />
+                  <SAQuestion id={question.id} onDeleteClick={handleDeleteQuestion} />
                 )}
               </div>
             ))}
           </div>
 
           <div className="flex justify-between border-[5px]">
-            <NewQuestionButton name="객관식" onClick={() => addQuestions("MC")} />
-            <NewQuestionButton name="주관식" onClick={() => addQuestions("SA")} />
+            <NewQuestionButton name="객관식" onNewClick={() => handleNewQuestions("MC")} />
+            <NewQuestionButton name="주관식" onNewClick={() => handleNewQuestions("SA")} />
           </div>
         </div>
+
         <div className="flex justify-end">
           <button
             onClick={handleSubmit} // 의뢰하기 버튼 클릭 시 서버로 데이터 전송

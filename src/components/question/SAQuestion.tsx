@@ -6,10 +6,10 @@ import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface SAQuestionProps {
     id: number; // 고유한 ID
-    onDelete: (id: number) => void; // 삭제 함수
+    onDeleteClick: (id: number) => void; // 삭제 함수
 }
 
-const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
+const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDeleteClick }) => {
 
     const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
 
@@ -18,12 +18,11 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
     };
 
     return (
-        <div className="flex border-[3px] my-4 rounded-md">
-            <div className="w-1/6 border-[4px]">
-                {/*<img src="https://cdn-icons-png.freepik.com/512/5471/5471074.png" className="w-full h-auto" />*/}
-                <img src="https://upload.wikimedia.org/wikipedia/ko/4/4a/%EC%8B%A0%EC%A7%B1%EA%B5%AC.png" className="w-full h-auto" />
+        <div className="flex my-4 rounded-md">
+            <div className="w-1/6">
+                <img src="https://cdn-icons-png.flaticon.com/128/14919/14919351.png" className="w-full h-auto" />
             </div>
-            <div className="flex-grow border-[4px]">
+            <div className="flex-grow">
                 <QuestionHeader isDisabled={isDisabled} />
                 <div className="px-2 py-2">
                     <textarea
@@ -40,9 +39,9 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDelete }) => {
                     <SaveQuestionButton onSaveClicked={handleQuestionStatus} />
                 )}
             </div>
-            <div className="flex w-1/8 border-[4px]">
+            <div className="flex w-1/8">
                 {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}
-                <DeleteQuestionButton onClick={() => onDelete(id)} /> {/* 고유 ID로 삭제 */}
+                <DeleteQuestionButton onClick={() => onDeleteClick(id)} /> {/* 고유 ID로 삭제 */}
             </div>
         </div>
     );
