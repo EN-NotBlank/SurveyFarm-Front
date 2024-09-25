@@ -18,7 +18,7 @@ const App = () => {
   const [selectedCnt, setSelectedCnt] = useState<string[]>([]);
 
   const handleNewQuestions = (type: string) => {
-    if (questions.length < 10) {
+    if (questions.length < 8) {
       const newQuestion = { id: questionCount, type }; // 고유한 ID와 타입 저장
       setQuestionCount((prevCount) => prevCount + 1);
       updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
