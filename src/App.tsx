@@ -7,7 +7,8 @@ import SAQuestion from "./components/question/SAQuestion";
 import NewQuestionButton from "./buttons/NewQuestionButton";
 
 const App = () => {
-  const [questions, updateQuestions] = useState<{ id: number; type: string }[]>([]); // 고유한 ID와 타입 저장
+  // question 한개는 고유한id, type, title, option들 배열로 구성됨
+  const [questions, updateQuestions] = useState<{ id: number; type: string, title: string, options: string[] }[]>([]);
   const [questionCount, setQuestionCount] = useState(0); // 고유한 ID 생성을 위한 카운트
 
   // ParticipantFilter에서 선택된 값을 저장할 상태
@@ -19,10 +20,35 @@ const App = () => {
 
   const handleNewQuestions = (type: string) => {
     if (questions.length < 8) {
-      const newQuestion = { id: questionCount, type }; // 고유한 ID와 타입 저장
+      const newQuestion = { id: questionCount, type, title: "", options: [] }; // 고유한 ID와 타입 저장
       setQuestionCount((prevCount) => prevCount + 1);
       updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
     }
+  };
+
+  const handleTitleChange = (id: number, newTitle: string) => {
+    updateQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
+        q.id === id ? { ...q, title: newTitle } : q
+      )
+    )
+  }
+
+  // 옵션 텍스트 업데이트
+  // 질문의 고유ID, 옵션ID, 새로운 옵션 string
+  const handleOptionChange = (id: number, optionIndex: number, newOption: string) => {
+    updateQuestions((prevQuestions) =>
+      prevQuestions.map((q) =>
+        q.id === id
+          ? {
+            ...q,
+            options: q.options.map((opt, idx) =>
+              idx === optionIndex ? newOption : opt
+            ),
+          }
+          : q
+      )
+    );
   };
 
   const handleDeleteQuestion = (id: number) => {
@@ -39,6 +65,7 @@ const App = () => {
     console.log(selectedGender);
     console.log(selectedAge);
     console.log(selectedCnt);
+    console.log(questions);
   };
 
   return (
@@ -78,9 +105,18 @@ const App = () => {
             {questions.map((question) => (
               <div key={question.id} className="border-b border-black py-2">
                 {question.type === "MC" ? (
-                  <MCQuestion id={question.id} onDeleteClick={handleDeleteQuestion} />
+                  <MCQuestion
+                    id={question.id}
+                    onTitleChange={handleTitleChange}
+                    onOptionChange={handleOptionChange}
+                    onDeleteClick={handleDeleteQuestion}
+                  />
                 ) : (
-                  <SAQuestion id={question.id} onDeleteClick={handleDeleteQuestion} />
+                  <SAQuestion
+                    id={question.id}
+                    onTitleChange={handleTitleChange}
+                    onDeleteClick={handleDeleteQuestion}
+                  />
                 )}
               </div>
             ))}

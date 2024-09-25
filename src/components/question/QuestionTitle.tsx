@@ -1,8 +1,9 @@
-interface QuestionHeaderProp {
+interface QuestionTitleProp {
+    onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isDisabled: boolean;
 }
 
-const QuestionHeader: React.FC<QuestionHeaderProp> = ({ isDisabled }) => {
+const QuestionTitle: React.FC<QuestionTitleProp> = ({ isDisabled, onChange }) => {
     return (
         // flex-grow로 남은 크기 전부 차지
         <div className="flex w-full my-1">
@@ -16,9 +17,10 @@ const QuestionHeader: React.FC<QuestionHeaderProp> = ({ isDisabled }) => {
                 placeholder="질문을 입력하세요"
                 required
                 disabled={isDisabled}
+                onChange={onChange}
             ></input>
         </div>
     );
 };
 
-export default QuestionHeader;
+export default QuestionTitle;

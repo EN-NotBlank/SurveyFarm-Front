@@ -3,18 +3,29 @@ import AddOptionButton from "../../buttons/AddOptionButton";
 import SaveQuestionButton from "../../buttons/SaveQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
 import Option from "./Option";
-import QuestionHeader from "./QuestionHeader";
+import QuestionTitle from "./QuestionTitle";
 import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface MCQuestionProps {
     id: number; // Question의 고유한 ID
     onDeleteClick: (id: number) => void;
+    onTitleChange: (id: number, title: string) => void; // 질문 텍스트를 상위로 전달하는 함수
+    onOptionChange: (id: number, index: number, text: string) => void; // 옵션 텍스트를 상위로 전달하는 함수
 }
 
-const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick }) => {
+const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick, onTitleChange, onOptionChange }) => {
     const [options, updateOptions] = useState<number[]>([]); // 선택지 관리
     const [isChecked, setIsChecked] = useState<boolean>(true); // 체크박스 관리
     const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
+
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onTitleChange(id, e.target.value); // 질문 텍스트를 상위로 전달
+    };
+
+    // 매개변수로 받은 질문의 고유 id만 넣어서 상위 컴포넌트 함수 호출
+    const handleOptionChange = (index: number, text: string) => {
+        onOptionChange(id, index, text); // 상위 컴포넌트 함수 호출
+    };
 
     const addOption = () => {
         if (options.length < 8) {
@@ -55,7 +66,7 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick }) => {
             </div>
 
             <div className="flex-grow">
-                <QuestionHeader isDisabled={isDisabled} />
+                <QuestionTitle isDisabled={isDisabled} onChange={handleTitleChange} />
 
                 <div>
                     {options.map((option, idx) => (
@@ -63,6 +74,7 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick }) => {
                             <Option
                                 key={option} // 고유한 key값을 그대로 유지
                                 index={idx + 1} // 인덱스는 1부터 증가하는 값을 유지
+                                onChange={(text) => handleOptionChange(idx, text)}
                                 onDelete={() => deleteOption(option)} // 고유한 option 값으로 삭제
                                 disabled={isDisabled} // 비활성화 상태 전달
                             />

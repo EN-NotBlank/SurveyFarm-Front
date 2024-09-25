@@ -1,10 +1,11 @@
 interface OptionProp {
     index: number;
+    onChange: (text: string) => void; // 옵션 변경 시 호출되는 함수
     onDelete: () => void;
     disabled: boolean;
 }
 
-const Option: React.FC<OptionProp> = ({ index, onDelete, disabled }) => {
+const Option: React.FC<OptionProp> = ({ index, onDelete, disabled, onChange }) => {
     return (
         <div className="flex px-2 py-2">
             <h1 className="text-xl font-bold px-2">
@@ -18,6 +19,7 @@ const Option: React.FC<OptionProp> = ({ index, onDelete, disabled }) => {
                 placeholder="선택지를 입력하세요"
                 required
                 disabled={disabled}
+                onChange={(e) => onChange(e.target.value)}
             ></input>
 
             {!disabled && (

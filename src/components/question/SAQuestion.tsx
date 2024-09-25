@@ -1,21 +1,28 @@
 import { useState } from "react";
 import SaveQuestionButton from "../../buttons/SaveQuestionButton";
 import DeleteQuestionButton from "../../buttons/DeleteQuestionButton";
-import QuestionHeader from "./QuestionHeader";
+import QuestionTitle from "./QuestionTitle";
 import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface SAQuestionProps {
     id: number; // 고유한 ID
+    onTitleChange: (id: number, title: string) => void;
     onDeleteClick: (id: number) => void; // 삭제 함수
 }
 
-const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDeleteClick }) => {
+const SAQuestion: React.FC<SAQuestionProps> = ({ id, onTitleChange, onDeleteClick }) => {
 
-    const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
-
+    // 비활성화 상태관리
+    const [isDisabled, setIsDisabled] = useState<boolean>(false);
+    // 비활성화 호출함수
     const handleQuestionStatus = () => {
-        setIsDisabled(!isDisabled); // 버튼 클릭 시 비활성화 상태로 변경
+        setIsDisabled(!isDisabled);
     };
+
+    // 제목바꿨을때 부모에게 값 전달하기
+    const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        onTitleChange(id, e.target.value);
+    }
 
     return (
         <div className="flex my-4 rounded-md">
@@ -23,7 +30,8 @@ const SAQuestion: React.FC<SAQuestionProps> = ({ id, onDeleteClick }) => {
                 <img src="https://cdn-icons-png.flaticon.com/128/14919/14919351.png" className="w-full h-auto" />
             </div>
             <div className="flex-grow">
-                <QuestionHeader isDisabled={isDisabled} />
+                <QuestionTitle isDisabled={isDisabled} onChange={handleTitleChange} />
+
                 <div className="px-2 py-2">
                     <textarea
                         name="input"
