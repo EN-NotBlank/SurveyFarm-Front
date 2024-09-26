@@ -7,38 +7,53 @@ import QuestionTitle from "./QuestionTitle";
 import ChangeQuestionButton from "../../buttons/ChangeQuestionButton";
 
 interface MCQuestionProps {
-    id: number; // Question의 고유한 ID
+    qid: number; // Question의 고유한 ID
     onDeleteClick: (id: number) => void;
-    onTitleChange: (id: number, title: string) => void; // 질문 텍스트를 상위로 전달하는 함수
-    onOptionChange: (id: number, index: number, text: string) => void; // 옵션 텍스트를 상위로 전달하는 함수
+    onTitleChange: (id: number, title: string) => void; // 질문 제목을 부모에게 전달
+    onOptionChange: (qid: number, oid: number, text: string) => void; // 옵션 바뀌면 부모에게 알리기
+    onAddOption: (qid: number, oid: number) => void; // 옵션 추가되면 부모에게 알리기
+    onDeleteOption: (qid: number, oid: number) => void; // 옵션 삭제되면 부모에게 알리기
 }
 
-const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick, onTitleChange, onOptionChange }) => {
-    const [options, updateOptions] = useState<number[]>([]); // 선택지 관리
+const MCQuestion: React.FC<MCQuestionProps> = ({ qid, onDeleteClick, onTitleChange, onOptionChange, onAddOption, onDeleteOption }) => {
+    const [options, updateOptions] = useState<{ oid: number, text: string }[]>([]); // 선택지 관리
+
     const [isChecked, setIsChecked] = useState<boolean>(true); // 체크박스 관리
     const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        onTitleChange(id, e.target.value); // 질문 텍스트를 상위로 전달
+        onTitleChange(qid, e.target.value); // 질문 텍스트를 상위로 전달
     };
 
-    // 매개변수로 받은 질문의 고유 id만 넣어서 상위 컴포넌트 함수 호출
-    const handleOptionChange = (index: number, text: string) => {
-        onOptionChange(id, index, text); // 상위 컴포넌트 함수 호출
-    };
-
-    const addOption = () => {
+    const handleAddOption = () => {
         if (options.length < 8) {
-            const newOptionIndex = options.length === 0 ? 0 : Math.max(...options) + 1;
-            updateOptions((prevOptions) => [...prevOptions, newOptionIndex]); // 새로운 옵션 추가
+            const newOption = {
+                oid: options.length === 0 ? 0 : Math.max(...options.map(opt => opt.oid)) + 1, // 고유한 ID 만들어주기
+                text: "",
+            }
+            updateOptions((prevOptions) => [...prevOptions, newOption]); // 자기꺼에 새 옵션 추가한거 업데이트
+            onAddOption(qid, newOption.oid); // 부모꺼 업데이트
         } else {
             window.alert("선택지는 8개 이하만 가능합니다!");
         }
     };
 
-    const deleteOption = (index: number) => {
-        const newOptions = options.filter((opt) => opt !== index); // 특정 index 옵션만 제거
-        updateOptions(newOptions); // 새로운 Option 배열로 업데이트
+    const handleChangeOption = (oid: number, text: string) => {
+        // 자기꺼에 반영해주기
+        updateOptions((prevOptions) =>
+            prevOptions.map((option) =>
+                option.oid === oid ? { ...option, text } : option
+            )
+        );
+        onOptionChange(qid, oid, text); // 부모꺼 업데이트
+    };
+
+    const handleDeleteOption = (oid: number) => {
+        // 특정 oid인 옵션을 제거한 새로운 배열 반환
+        const newOptions = options.filter(option => option.oid !== oid);
+
+        updateOptions(newOptions); // 자기 옵션 배열 업데이트
+        onDeleteOption(qid, oid);  // 부모 상태 업데이트
     };
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
@@ -69,20 +84,22 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick, onTitleChang
                 <QuestionTitle isDisabled={isDisabled} onChange={handleTitleChange} />
 
                 <div>
+                    {/* idx는 map이 배정해주는 번호임*/}
                     {options.map((option, idx) => (
-                        <div key={option} className="py-2">
+                        <div key={option.oid} className="py-2">
                             <Option
-                                key={option} // 고유한 key값을 그대로 유지
-                                index={idx + 1} // 인덱스는 1부터 증가하는 값을 유지
-                                onChange={(text) => handleOptionChange(idx, text)}
-                                onDelete={() => deleteOption(option)} // 고유한 option 값으로 삭제
+                                key={option.oid} // key값은 고유ID로
+                                oid={option.oid} // 옵션의 고유ID
+                                index={idx + 1} // 화면에 표시될 옵션 순서번호. 내부적인 로직으로는 안쓰임
+                                onChange={(text) => handleChangeOption(option.oid, text)}
+                                onDelete={() => handleDeleteOption(option.oid)} // 고유한 option 값으로 삭제
                                 disabled={isDisabled} // 비활성화 상태 전달
                             />
                         </div>
                     ))}
                 </div>
 
-                <AddOptionButton onClick={addOption} disabled={isDisabled} />
+                <AddOptionButton onClick={handleAddOption} disabled={isDisabled} />
                 {options.length > 0 && !isDisabled && (
                     <SaveQuestionButton onSaveClicked={handleQuestionStatus} />
                 )}
@@ -90,7 +107,7 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ id, onDeleteClick, onTitleChang
 
             <div className="flex w-1/8 py-1">
                 {isDisabled && (<ChangeQuestionButton onClick={handleQuestionStatus} />)}
-                <DeleteQuestionButton onClick={() => onDeleteClick(id)} /> {/* 고유 ID로 삭제 */}
+                <DeleteQuestionButton onClick={() => onDeleteClick(qid)} />
             </div>
         </div>
     );

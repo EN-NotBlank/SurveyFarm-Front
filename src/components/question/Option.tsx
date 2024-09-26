@@ -1,11 +1,12 @@
 interface OptionProp {
-    index: number;
+    oid: number; // 해당 옵션의 고유ID
+    index: number; // 해당 옵션의 순서번호
     onChange: (text: string) => void; // 옵션 변경 시 호출되는 함수
     onDelete: () => void;
     disabled: boolean;
 }
 
-const Option: React.FC<OptionProp> = ({ index, onDelete, disabled, onChange }) => {
+const Option: React.FC<OptionProp> = ({ oid, index, onDelete, disabled, onChange }) => {
     return (
         <div className="flex px-2 py-2">
             <h1 className="text-xl font-bold px-2">

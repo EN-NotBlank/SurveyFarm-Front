@@ -1,10 +1,9 @@
-interface QuestionTitleProp {
+interface SAQuestionTitleProp {
     onChange: (e: React.ChangeEvent<HTMLInputElement>) => void;
     isDisabled: boolean;
-    row: number;
 }
 
-const QuestionTitle: React.FC<QuestionTitleProp> = ({ isDisabled, onChange }) => {
+const SAQuestionTitle: React.FC<SAQuestionTitleProp> = ({ isDisabled, onChange }) => {
     return (
         // flex-grow로 남은 크기 전부 차지
         <div className="flex w-full my-1">
@@ -24,4 +23,4 @@ const QuestionTitle: React.FC<QuestionTitleProp> = ({ isDisabled, onChange }) =>
     );
 };
 
-export default QuestionTitle;
+export default SAQuestionTitle;
