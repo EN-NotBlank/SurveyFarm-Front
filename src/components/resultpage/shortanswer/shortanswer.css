@@ -1,0 +1,109 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
+
+.Result_page_short_answer {
+    width: 85%;
+    min-height: 200px;
+    padding: 10px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    /* border: 2px solid rgba(87, 87, 87, 0.1); */
+    border-radius: 15px;
+}
+
+.Result_page_short_answer .Result_page_short_answer_answer {
+    position: relative;
+    background-color: #F6FAF9;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; 
+}
+
+.Result_page_short_answer_answer .Result_page_short_answer_image {
+    position: relative;
+    background-color: #f6faf9;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    border-radius: 15px;
+    text-align: left;
+    padding: 10px;
+    margin: 10px;
+    flex: 0 0 150px;
+    width: 150px;
+    height: 150px;
+}
+
+.Result_page_short_answer_answer .Result_page_short_answer_wordcloud {
+    position: relative;
+    justify-content: left;
+    background-color: #f6faf9;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    border-radius: 1.5vw;
+    margin: 10px;
+    padding: 2%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-grow: 3;
+    box-sizing: border-box;
+}
+
+.Result_page_short_answer_answer .Result_page_short_answer_keyword {
+    position: relative;
+    display: flex;
+    text-align: left;
+    font-size: 18px;
+    background-color: #f6faf9;
+    border-radius: 1.5vw;
+    margin: 2%;
+    padding: 2%;
+    flex-grow: 1;
+    flex-wrap: nowrap;
+    white-space: nowrap;
+    box-sizing: border-box;
+}
+
+@media screen and (max-width: 768px) {
+    .Result_page_short_answer {
+        width: 90%;
+    }
+
+    .Result_page_short_answer_answer .Result_page_short_answer_image {
+        flex: 0 0 15vw;
+        width: 15vw;
+        height: 15vw;
+    }
+
+    .Result_page_short_answer_answer .Result_page_short_answer_wordcloud,
+    .Result_page_short_answer_answer .Result_page_short_answer_keyword {
+        margin: 1%;
+        width: 100%;
+    }
+}
+
+@media screen and (max-width: 480px) {
+    .Result_page_short_answer {
+        width: 95%;
+    }
+
+    .Result_page_short_answer_answer .Result_page_short_answer_image {
+        flex: 0 0 20vw;
+        width: 20vw;
+        height: 20vw;
+    }
+
+    .Result_page_short_answer_answer .Result_page_short_answer_wordcloud {
+        font-size: 3vw;
+        padding: 1%;
+    }
+
+    .Result_page_short_answer_answer .Result_page_short_answer_keyword {
+        font-size: 3vw;
+        padding: 1%;
+    }
+}

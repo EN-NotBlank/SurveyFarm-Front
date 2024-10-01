@@ -1,0 +1,13 @@
+.Result_page_short_answer_ai {
+    position: relative;
+    background-color: #F6FAF9;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; 
+}

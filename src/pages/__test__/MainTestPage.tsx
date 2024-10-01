@@ -1,4 +1,4 @@
-import Header from "../../layouts/header/header";
+import Header from "../../layouts/header/Header.tsx";
 
 const MainTestPage = () =>{
     return (
