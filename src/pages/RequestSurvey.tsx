@@ -16,10 +16,11 @@ const RequestSurvey = () => {
     const [selectedJob, setSelectedJob] = useState<string[]>([]);
     const [selectedGender, setSelectedGender] = useState<string[]>([]);
     const [selectedAge, setSelectedAge] = useState<string[]>([]);
-    const [selectedCnt, setSelectedCnt] = useState<string[]>([]);
+    const [selectedHeadCnt, setSelectedHeadCnt] = useState<string[]>([]);
+    const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
 
     const handleNewQuestions = (type: string) => {
-        if (questions.length < 8) {
+        if (questions.length < 10) {
             const newQuestion = { qid: questionCount, type, title: "", options: [] }; // 고유한 ID와 타입 저장
             setQuestionCount((prevCount) => prevCount + 1);
             updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
@@ -88,13 +89,55 @@ const RequestSurvey = () => {
 
     // 여기다 서버로 보내는거 써야되는데 지금 일단 확인용으로 console에 찍자
     const handleSubmit = () => {
-        console.log(selectedRegion);
-        console.log(selectedJob);
-        console.log(selectedGender);
-        console.log(selectedAge);
-        console.log(selectedCnt);
-        console.log(questions);
+        // 콘솔에 선택된 데이터들을 확인하기 위한 로그
+        // console.log(selectedRegion);
+        // console.log(selectedJob);
+        // console.log(selectedGender);
+        // console.log(selectedAge);
+        // console.log(selectedHeadCnt);
+        // console.log(selectedDuration);
+        // console.log(questions);
+
+        const payload = {
+            ownerId: 123,  // 지금은 더미값 
+            selectedRegion,
+            selectedJob,
+            selectedGender,
+            selectedAge,
+            selectedHeadCnt,
+            selectedDuration,
+            description: "this is survey description",
+            questionList: questions.map(question => ({
+                title: question.title,
+                // 객관식일때만 option 매핑. 주관식이면 빈배열 반환
+                optionList: question.type === 'MC'
+                    ? question.options.map(option => ({ text: option[1] }))
+                    : [],
+                questionType: question.type === 'MC' ? 'MC' : 'SA'
+            }))
+        };
+
+        // json으로 변환
+        const jsonPayload = JSON.stringify(payload);
+        console.log(jsonPayload);
+
+        // 서버로 POST
+        fetch(`http://localhost:3000/requestSurvey`, {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: jsonPayload,  // POST니까 body에 담아 보내기
+        })
+            .then(response => {
+                // 성공이면 response 객체 json으로 파싱해주자
+                if (response.ok) {
+                    return response.json();
+                }
+                throw new Error('에러요 에러');
+            })
     };
+
 
     return (
         <div className="min-h-screen bg-gray-100">
@@ -108,7 +151,8 @@ const RequestSurvey = () => {
                         onJobChange={setSelectedJob}
                         onGenderChange={setSelectedGender}
                         onAgeChange={setSelectedAge}
-                        onCntChange={setSelectedCnt}
+                        onHeadCntChange={setSelectedHeadCnt}
+                        onDurationChange={setSelectedDuration}
                     />
                 </div>
 
