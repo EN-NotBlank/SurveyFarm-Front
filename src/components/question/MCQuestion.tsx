@@ -8,17 +8,19 @@ import ChangeQuestionButton from "../button/ChangeQuestionButton";
 
 interface MCQuestionProps {
     qid: number; // Question의 고유한 ID
+    isMAPossible: boolean; // 복수 선택 가능 여부
     onDeleteClick: (id: number) => void;
     onTitleChange: (id: number, title: string) => void; // 질문 제목을 부모에게 전달
-    onOptionChange: (qid: number, oid: number, text: string) => void; // 옵션 바뀌면 부모에게 알리기
     onAddOption: (qid: number, oid: number) => void; // 옵션 추가되면 부모에게 알리기
+    onOptionChange: (qid: number, oid: number, text: string) => void; // 옵션 내용  바뀌면 부모에게 알리기
     onDeleteOption: (qid: number, oid: number) => void; // 옵션 삭제되면 부모에게 알리기
+    onCheckboxChange: (qid: number, isChecked: boolean) => void; // 중복선택 가능 바뀌면 부모에게 알리기
 }
 
-const MCQuestion: React.FC<MCQuestionProps> = ({ qid, onDeleteClick, onTitleChange, onOptionChange, onAddOption, onDeleteOption }) => {
+const MCQuestion: React.FC<MCQuestionProps> = ({ qid, isMAPossible, onDeleteClick, onTitleChange, onAddOption, onOptionChange, onDeleteOption, onCheckboxChange }) => {
     const [options, updateOptions] = useState<{ oid: number, text: string }[]>([]); // 선택지 관리
 
-    const [isChecked, setIsChecked] = useState<boolean>(true); // 체크박스 관리
+    const [isChecked, setCheckBoxStatus] = useState<boolean>(isMAPossible); // 중복선택 가능 체크박스 관리
     const [isDisabled, setIsDisabled] = useState<boolean>(false); // 비활성화 관리
 
     const handleTitleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -57,7 +59,9 @@ const MCQuestion: React.FC<MCQuestionProps> = ({ qid, onDeleteClick, onTitleChan
     };
 
     const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-        setIsChecked(event.target.checked);
+        const checked = event.target.checked;
+        setCheckBoxStatus(checked); // 상태 업데이트
+        onCheckboxChange(qid, checked); // 부모에게 변경된 상태 전달
     };
 
     const handleQuestionStatus = () => {

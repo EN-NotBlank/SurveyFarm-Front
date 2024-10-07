@@ -7,8 +7,15 @@ import SAQuestion from "../components/question/SAQuestion";
 import NewQuestionButton from "../components/button/NewQuestionButton";
 
 const RequestSurvey = () => {
-    // question 한개는 고유한id, type, title, option들 배열로 구성됨
-    const [questions, updateQuestions] = useState<{ qid: number; type: string, title: string, options: [number, string][]; }[]>([]);
+    // question 한개는 고유한id, type, title, 중복가능, option들 배열로 구성됨
+    const [questions, updateQuestions] = useState<{
+        qid: number;
+        type: string,
+        title: string,
+        isChecked: boolean,
+        options: [number, string][];
+    }[]>([]);
+
     const [questionCount, setQuestionCount] = useState(0); // 고유한 ID 생성을 위한 카운트
 
     // ParticipantFilter에서 선택된 값을 저장할 상태
@@ -21,7 +28,7 @@ const RequestSurvey = () => {
 
     const handleNewQuestions = (type: string) => {
         if (questions.length < 10) {
-            const newQuestion = { qid: questionCount, type, title: "", options: [] }; // 고유한 ID와 타입 저장
+            const newQuestion = { qid: questionCount, type, title: "", isChecked: false, options: [] }; // 고유한 ID와 타입 저장
             setQuestionCount((prevCount) => prevCount + 1);
             updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
         }
@@ -87,6 +94,17 @@ const RequestSurvey = () => {
         }
     };
 
+    // 얘가 자식으로부터 qid랑 isChecked를 전달받아서 여기 부모에서 업데이트 해줌
+    const handleCheckboxChange = (qid: number, isChecked: boolean) => {
+        updateQuestions((prevQuestions) =>
+            prevQuestions.map((question) =>
+                question.qid === qid
+                    ? { ...question, isChecked } // Use isChecked instead of isMAPossible
+                    : question
+            )
+        );
+    }
+
     // 여기다 서버로 보내는거 써야되는데 지금 일단 확인용으로 console에 찍자
     const handleSubmit = () => {
         // 콘솔에 선택된 데이터들을 확인하기 위한 로그
@@ -110,9 +128,8 @@ const RequestSurvey = () => {
             questionList: questions.map(question => ({
                 title: question.title,
                 // 객관식일때만 option 매핑. 주관식이면 빈배열 반환
-                optionList: question.type === 'MC'
-                    ? question.options.map(option => ({ text: option[1] }))
-                    : [],
+                optionList: question.type === 'MC' ? question.options.map(option => ({ text: option[1] })) : [],
+                isMAPossible: question.type === 'MC' ? question.isChecked : false,
                 questionType: question.type === 'MC' ? 'MC' : 'SA'
             }))
         };
@@ -179,11 +196,13 @@ const RequestSurvey = () => {
                                 {question.type === "MC" ? (
                                     <MCQuestion
                                         qid={question.qid}
+                                        isMAPossible={question.isChecked} // 수정된 부분
                                         onTitleChange={handleTitleChange}
                                         onAddOption={handleAddOption}
                                         onDeleteOption={handleDeleteOption}
                                         onOptionChange={handleChangeOption}
                                         onDeleteClick={handleDeleteQuestion}
+                                        onCheckboxChange={handleCheckboxChange}
                                     />
                                 ) : (
                                     <SAQuestion
