@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-interface DropdownMenuProps {
+interface Dropdown2DProps {
     name: string;
     options: string[];
     isOpen: boolean;
@@ -8,7 +8,7 @@ interface DropdownMenuProps {
     onApply: (selected: string[]) => void;  // 선택된 옵션을 부모에게 전달하는 콜백 함수
 }
 
-const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onToggle, onApply }) => {
+const Dropdown2D: React.FC<Dropdown2DProps> = ({ name, options, isOpen, onToggle, onApply }) => {
     const [selectedOptions, setSelectedOptions] = useState<string[]>([]);
 
     const handleSelect = (option: string) => {
@@ -76,4 +76,4 @@ const DropdownMenu: React.FC<DropdownMenuProps> = ({ name, options, isOpen, onTo
     );
 };
 
-export default DropdownMenu;
+export default Dropdown2D;

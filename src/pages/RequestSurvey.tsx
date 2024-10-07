@@ -1,7 +1,7 @@
 import { useState } from "react";
 import Nav from "../layouts/Nav";
 import Header from "../layouts/Header"
-import ParticipantFilter from "../components/filter/ParticipantFilter";
+import SurveyParticipantFilter from "../components/filter/SurveyParticipantFilter";
 import MCQuestion from "../components/question/MCQuestion";
 import SAQuestion from "../components/question/SAQuestion";
 import NewQuestionButton from "../components/button/NewQuestionButton";
@@ -23,8 +23,8 @@ const RequestSurvey = () => {
     const [selectedJob, setSelectedJob] = useState<string[]>([]);
     const [selectedGender, setSelectedGender] = useState<string[]>([]);
     const [selectedAge, setSelectedAge] = useState<string[]>([]);
-    const [selectedHeadCnt, setSelectedHeadCnt] = useState<string[]>([]);
-    const [selectedDuration, setSelectedDuration] = useState<string[]>([]);
+    const [selectedHeadCnt, setSelectedHeadCnt] = useState<string>("");
+    const [selectedDuration, setSelectedDuration] = useState<string>("");
 
     const handleNewQuestions = (type: string) => {
         if (questions.length < 10) {
@@ -163,7 +163,7 @@ const RequestSurvey = () => {
             <main className="px-[20vw]">
                 <div className="border-b-2 border-black py-4">
                     <h1 className="text-2xl font-bold mx-8 my-5">조건 설정</h1>
-                    <ParticipantFilter
+                    <SurveyParticipantFilter
                         onRegionChange={setSelectedRegion}
                         onJobChange={setSelectedJob}
                         onGenderChange={setSelectedGender}
