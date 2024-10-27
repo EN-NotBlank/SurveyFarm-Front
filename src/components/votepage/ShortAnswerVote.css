@@ -1,0 +1,67 @@
+.Short_Answer_Vote{
+    width: 85%;
+    min-height: 200px;
+    padding: 10px;
+    margin-top: 40px;
+    margin-left: auto;
+    margin-right: auto;
+    /* border: 2px solid rgba(87, 87, 87, 0.1); */
+    border-radius: 15px;
+}
+
+.Short_Answer_Vote .Short_Answer_Vote_answer{
+    position: relative;
+    background-color: #F6FAF9;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    width: 100%;
+    height: auto;
+    border-radius: 15px;
+    margin-top: 10px;
+    padding: 10px;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: nowrap; 
+}
+
+.Short_Answer_Vote_input {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid rgba(129, 129, 129, 0.1);
+    margin-top: 10px;
+    border-radius: 15px;
+    border: 1px solid #d1d1d1;
+    font-size: 16px;
+    flex-wrap: nowrap; 
+    resize: none; 
+    overflow-wrap: break-word; 
+    word-wrap: break-word; 
+    white-space: pre-wrap;
+    overflow-y: auto;
+  }
+
+  .Short_Answer_Vote_input:focus {
+    outline: none;
+    border: 2px solid #777777;
+}
+
+.Short_Answer_Vote_input::-webkit-scrollbar {
+    width: 11px;
+    height: 3px;
+}
+
+.Short_Answer_Vote_input::-webkit-scrollbar-track {
+    background-color: #f1f1f1;
+    border-radius: 10px;
+    margin: 6px;
+}
+
+.Short_Answer_Vote_input::-webkit-scrollbar-thumb {
+    background-color: #888;
+    border-radius: 10px;
+    cursor: default;
+}
+
+.Short_Answer_Vote_input::-webkit-scrollbar-thumb:hover {
+    background-color: #555;
+}
+

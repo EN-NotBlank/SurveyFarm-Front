@@ -25,18 +25,7 @@
     flex-wrap: nowrap; 
 }
 
-.Result_page_short_answer_answer .Result_page_short_answer_image {
-    position: relative;
-    background-color: #f6faf9;
-    border: 2px solid rgba(129, 129, 129, 0.1);
-    border-radius: 15px;
-    text-align: left;
-    padding: 10px;
-    margin: 10px;
-    flex: 0 0 150px;
-    width: 150px;
-    height: 150px;
-}
+
 
 .Result_page_short_answer_answer .Result_page_short_answer_wordcloud {
     position: relative;

@@ -1,13 +1,15 @@
 import React, { useEffect, useState } from 'react';
 import "./multichoice.css";
 import ResultPieChart from "../multichoice/resultpiechart";
-import QuestionBox from '../question';
+import QuestionBox from '../../questionbox/question';
+import QuestionImage from '../../questionimage/QuestionImage';
 
 
 const MultiChoice = () =>{
 
     const [answers, setAnswers] = useState<string[]>([]);
     const question = "1. What is the capital of France?";
+    const imageUrl = "https://cdn-icons-png.flaticon.com/128/8371/8371275.png";
 
     useEffect(() => {
         const fetchAnswers = async () => {
@@ -27,9 +29,7 @@ const MultiChoice = () =>{
         <div className="Result_page_multiple_choice">
             <QuestionBox questionText={question} />
             <div className="Result_page_multiple_choice_answer">
-                <div className="Result_page_multiple_choice_answer_image">
-                    <img src="https://cdn-icons-png.flaticon.com/128/8371/8371275.png" />
-                </div>
+                <QuestionImage imageUrl={imageUrl} />
                 <div className="Result_page_multiple_choice_answer_question">
                 {answers.map((answer, index) => (
                     <h2 key={index}>

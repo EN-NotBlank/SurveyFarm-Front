@@ -1,12 +1,14 @@
 import React from "react";
 import "./shortanswer.css";
-import QuestionBox from "../question";
+import QuestionBox from "../../questionbox/question";
 import WordCloudBox from "../shortanswer/wordcloud";
 import AiAnswer from "./ai_answer";
+import QuestionImage from "../../questionimage/QuestionImage";
 
 const ShortAnswer: React.FC = () =>{
     
     const question = "2. What is the capital of France?";
+    const imageUrl ="https://cdn-icons-png.flaticon.com/128/14919/14919351.png";
 
     const keywords: string[] = [
         "Paris", 
@@ -25,9 +27,7 @@ const ShortAnswer: React.FC = () =>{
         <div className="Result_page_short_answer">
             <QuestionBox questionText={question}/>
             <div className="Result_page_short_answer_answer">
-                <div className="Result_page_short_answer_image">
-                    <img src="https://cdn-icons-png.flaticon.com/128/14919/14919351.png" />
-                </div>
+                <QuestionImage imageUrl={imageUrl} />
                 <div className="Result_page_short_answer_wordcloud"> 
                     <WordCloudBox />
                 </div>
