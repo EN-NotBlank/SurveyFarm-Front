@@ -1,12 +1,15 @@
+<<<<<<< HEAD
 import Header from "../../layouts/header/Header.tsx";
+=======
+import Layout from "../../layouts/layout/Layout";
+>>>>>>> kpaas/develop
 
 const MainTestPage = () =>{
     return (
-        <div>
-            <Header>
-            </Header>
-            <h1>router Test!</h1>
-        </div>
+        <Layout>
+            <h1>router Teㅇt!</h1>
+        </Layout>
+        
         
     )
 }

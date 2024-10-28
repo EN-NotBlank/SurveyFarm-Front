@@ -1,0 +1,23 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: boatvote-web-dep
+  namespace: default
+spec:
+  selector:
+    matchLabels:
+      app: boatvote-web-kube
+  replicas: 2
+  template:
+    metadata:
+      labels:
+        app: boatvote-web-kube
+    spec:
+      imagePullSecrets:
+        - name: regcred
+      containers:
+        - name: boatvote-web-container
+          image: nl8ir2on.kr.private-ncr.ntruss.com/boatvote-server:0.1
+          ports:
+            - containerPort: 3000
+
