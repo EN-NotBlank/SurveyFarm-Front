@@ -25,8 +25,6 @@
     flex-wrap: nowrap; 
 }
 
-
-
 .Result_page_short_answer_answer .Result_page_short_answer_wordcloud {
     position: relative;
     justify-content: left;
@@ -55,6 +53,10 @@
     flex-wrap: nowrap;
     white-space: nowrap;
     box-sizing: border-box;
+}
+
+.Result_page_short_answer_answer .Result_page_short_answer_keyword h2{
+    margin-bottom: 5px;
 }
 
 @media screen and (max-width: 768px) {

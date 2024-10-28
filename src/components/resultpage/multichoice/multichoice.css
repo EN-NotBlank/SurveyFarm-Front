@@ -24,6 +24,8 @@
     display: flex;
     flex-direction: row;
     flex-wrap: nowrap; 
+    word-wrap: break-word;
+    white-space: normal;
 }
 
 .Result_page_multiple_choice_answer .Result_page_multiple_choice_answer_question {
@@ -32,14 +34,18 @@
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing : antialiased;
     -moz-osx-font-smoothing: grayscale;
+    font-size: 20px;
     background-color: #f6faf9;
-    border: 2px solid rgba(129, 129, 129, 0.1);
     border-radius: 15px;
     margin: 10px;
     text-align: left;
     padding-left: 20px;
     padding-top: 10px;
     flex: 1; 
+}
+
+.Result_page_multiple_choice_answer .Result_page_multiple_choice_answer_question h2 {
+    margin-bottom: 10px; 
 }
 
 @media screen and (max-width: 768px) {

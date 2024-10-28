@@ -8,6 +8,11 @@ const ResultPage = ()=>{
         <div className="Result_page_body">
             <MultiChoice />
             <ShortAnswer />
+            <MultiChoice />
+            <ShortAnswer />
+            <div className="Result_page_button-container">
+            <button className="Result_page_submit_button">확인</button>
+        </div>
         </div>
     );
 };

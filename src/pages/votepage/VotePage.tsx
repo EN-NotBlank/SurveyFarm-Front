@@ -123,27 +123,27 @@ const VotePage: React.FC = () => {
 
   return (
     <div className="vote-page-body">
-      {questions.map((question) => (
+      {questions.map((question,index) => (
         <div key={question.qid}>
           {question.questionType === "MC" ? (
             <MultiChoiceVote
               isMultipleChoice={question.isMultipleAnswer}
               answers={question.optionList.map(option => option.text)}
               question={question.title}
-              id={question.qid}
+              id={index + 1} 
               onAnswerChange={(answer) => handleAnswerChange(question.qid, answer)}
             />
           ) : (
             <ShortAnswerVote
               question={question.title}
-              id={question.qid}
+              id={index + 1} 
               onAnswerChange={(answer) => handleAnswerChange(question.qid, answer)}
             />
           )}
         </div>
       ))}
         <div className="Vote_page_button-container">
-            <button className="Vote_page_submit_button" onClick={handleSubmitAnswers}>Submit Answers</button>
+            <button className="Vote_page_submit_button" onClick={handleSubmitAnswers}>제출</button>
         </div>    
       </div>
   );

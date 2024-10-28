@@ -2,18 +2,9 @@ import React from "react";
 import WordCloud from "react-wordcloud";
 import './WordCloud.css';
 
-const words: { text: string; value: number }[] = [
-  { text: "Paris", value: 100 },
-  { text: "France", value: 80 },
-  { text: "Capital", value: 60 },
-  { text: "Eiffel Tower", value: 50 },
-  { text: "Louvre", value: 40 },
-  { text: "Seine", value: 30 },
-  { text: "Notre Dame", value: 20 },
-  { text: "Croissant", value: 10 },
-  { text: "Tourism", value: 5 },
-  { text: "French Revolution", value: 1 }
-];
+interface WordCloudBoxProps {
+  words: { text: string; value: number }[];
+}
 
 const getRandomColor = () => {
   const letters = '0123456789ABCDEF';
@@ -31,12 +22,14 @@ const options = {
      
   };
 
+  
+
+const WordCloudBox: React.FC<WordCloudBoxProps> = ({ words }) => {
   const coloredWords = words.map(word => ({
     ...word,
-    color: getRandomColor(), 
+    color: getRandomColor(),
   }));
-
-const WordCloudBox = () => {
+  
   return (
     <div className="wordcloud-container">
       <WordCloud words={coloredWords } options={options} />

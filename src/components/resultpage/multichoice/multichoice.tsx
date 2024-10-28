@@ -4,44 +4,46 @@ import ResultPieChart from "../multichoice/resultpiechart";
 import QuestionBox from '../../questionbox/question';
 import QuestionImage from '../../questionimage/QuestionImage';
 
+const MultiChoice = () => {
+  const [answers, setAnswers] = useState<string[]>([]);
+  const [series, setSeries] = useState<number[]>([]);
+  const question = "1. What is the capital of France?";
+  const imageUrl = "https://cdn-icons-png.flaticon.com/128/8371/8371275.png";
 
-const MultiChoice = () =>{
-
-    const [answers, setAnswers] = useState<string[]>([]);
-    const question = "1. What is the capital of France?";
-    const imageUrl = "https://cdn-icons-png.flaticon.com/128/8371/8371275.png";
-
-    useEffect(() => {
-        const fetchAnswers = async () => {
-          try {
-            const response = await fetch(''); 
-            const data = await response.json(); 
-            setAnswers(data.answers); 
-          } catch (error) {
-            console.error('Error fetching answers:', error);
-          }
+  useEffect(() => {
+    const fetchAnswers = async () => {
+      try {
+        const data = {
+          answers: ["Paris", "London", "Berlin", "Madrid","Korea","Seoul","Canada","France"],
+          series: [40, 25, 20, 15,30,8,20,9]
         };
-    
-        fetchAnswers();
-      }, []); 
 
-    return(
-        <div className="Result_page_multiple_choice">
-            <QuestionBox questionText={question} />
-            <div className="Result_page_multiple_choice_answer">
-                <QuestionImage imageUrl={imageUrl} />
-                <div className="Result_page_multiple_choice_answer_question">
-                {answers.map((answer, index) => (
-                    <h2 key={index}>
-                        {index + 1}. {answer}
-                    </h2>
-                ))}
-                </div>
-                <ResultPieChart series={[44, 55, 28, 43, 22,13]} labels={['1번', '2번', '3번', '4번', '5번','6번']} />
-            </div>
+        setAnswers(data.answers);
+        setSeries(data.series);
+      } catch (error) {
+        console.error('Error fetching answers:', error);
+      }
+    };
 
+    fetchAnswers();
+  }, []);
+
+  return (
+    <div className="Result_page_multiple_choice">
+      <QuestionBox questionText={question} />
+      <div className="Result_page_multiple_choice_answer">
+        <QuestionImage imageUrl={imageUrl} />
+        <div className="Result_page_multiple_choice_answer_question">
+          {answers.map((answer, index) => (
+            <h2 key={index}>
+              {index + 1}. {answer}
+            </h2>
+          ))}
         </div>
-    );
+        <ResultPieChart series={series} labels={answers} />
+      </div>
+    </div>
+  );
 }
 
 export default MultiChoice;
