@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
-import Dropdown1D from './DropDown1D';
-import Dropdown2D from './DropDown2D';
+import Dropdown1D from './Dropdown1D';
+import Dropdown2D from './Dropdown2D';
 
 interface SurveyParticipantFilterProps {
     onRegionChange: (selected: string[]) => void;

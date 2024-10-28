@@ -27,7 +27,7 @@ const RequestSurvey = () => {
     const [selectedDuration, setSelectedDuration] = useState<string>("");
 
     const handleNewQuestions = (type: string) => {
-        if (questions.length < 10) {
+        if (questions.length < 8) {
             const newQuestion = { qid: questionCount, type, title: "", isChecked: false, options: [] }; // 고유한 ID와 타입 저장
             setQuestionCount((prevCount) => prevCount + 1);
             updateQuestions((prevQuestions) => [...prevQuestions, newQuestion]);
@@ -116,20 +116,24 @@ const RequestSurvey = () => {
         // console.log(selectedDuration);
         // console.log(questions);
 
+        // string 값 10진수 정수로 변환
+        const headCnt = parseInt(selectedHeadCnt, 10);
+        const duration = parseInt(selectedDuration, 10);
+
         const payload = {
             ownerId: 123,  // 지금은 더미값 
             selectedRegion,
             selectedJob,
             selectedGender,
             selectedAge,
-            selectedHeadCnt,
-            selectedDuration,
+            headCnt,
+            duration,
             description: "this is survey description",
             questionList: questions.map(question => ({
                 title: question.title,
                 // 객관식일때만 option 매핑. 주관식이면 빈배열 반환
                 optionList: question.type === 'MC' ? question.options.map(option => ({ text: option[1] })) : [],
-                isMAPossible: question.type === 'MC' ? question.isChecked : false,
+                isMultipleAnswer: question.type === 'MC' ? question.isChecked : false,
                 questionType: question.type === 'MC' ? 'MC' : 'SA'
             }))
         };
