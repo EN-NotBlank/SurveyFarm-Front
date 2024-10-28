@@ -6,6 +6,10 @@ export interface SurveyCard {
     progress: number;
     endDate: string;
     participants: number;
+    job: string[];
+    gender: string;
+    age: string[];
+    region: string[];
 }
   
 export interface SurveyApiResponse {
@@ -16,10 +20,10 @@ export interface SurveyApiResponse {
 }
 
 export interface SurveyFilterParams {
-    job?: string;
-    value?: string;
+    job?: string[];
+    region?: string[];
     gender?: string;
-    age?: string;
+    age?: string[];
     search?: string;
     page?: number;
     pageSize?: number;

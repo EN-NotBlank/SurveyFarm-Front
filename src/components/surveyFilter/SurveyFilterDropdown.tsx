@@ -4,14 +4,16 @@ import './SurveyFilterDropdown.css';
 
 interface FilterDropdownProps {
   filterGroup: FilterGroup;
-  selectedValue: string;
-  onSelect: (key: keyof SurveyFilterParams, value: string) => void;
+  selectedValues: string[];
+  onSelect: (key: keyof SurveyFilterParams, values: string[]) => void;
+  onApply: () => void;
 }
 
 const FilterDropdown: React.FC<FilterDropdownProps> = ({
   filterGroup,
-  selectedValue,
-  onSelect
+  selectedValues,
+  onSelect,
+  onApply
 }) => {
   const [isOpen, setIsOpen] = useState(false);
   const dropdownRef = useRef<HTMLDivElement>(null);
@@ -28,13 +30,31 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   }, []);
 
   const handleSelect = (value: string) => {
-    onSelect(filterGroup.key, value);
-    setIsOpen(false);
-  };
+    const currentIndex = selectedValues.indexOf(value);
+    let newValues: string[];
 
-  const selectedLabel = filterGroup.options.find(
-    option => option.value === selectedValue
-  )?.label || filterGroup.options[0].label;
+    if (currentIndex === -1) {
+      newValues = [...selectedValues, value];
+    } else {
+      newValues = selectedValues.filter(item => item !== value);
+    }
+
+    onSelect(filterGroup.key, newValues);
+  };
+  
+  //handle apply
+  const handleApply = () => {
+    onApply()
+    setIsOpen(false)
+  }
+
+  // 선택된 값 표시하는 함수
+  const renderSelectedValues = () => {
+    if (selectedValues.length === 0) return '무관'; 
+
+    const uniqueCount = selectedValues.length - 1;
+    return uniqueCount > 0 ? `${selectedValues[0]} 외 ${uniqueCount}` : selectedValues[0];
+  };
 
   return (
     <div className="filter-dropdown" ref={dropdownRef}>
@@ -42,19 +62,26 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
         className="dropdown-button"
         onClick={() => setIsOpen(!isOpen)}
       >
-        {filterGroup.title}: {selectedLabel} ▼
+        {filterGroup.title} ▼ <span className="selected-value">{renderSelectedValues()}</span>
       </button>
+
       {isOpen && (
-        <div className="dropdown-menu">
-          {filterGroup.options.map((option) => (
-            <button
-              key={option.value}
-              className={`dropdown-item ${selectedValue === option.value ? 'selected' : ''}`}
-              onClick={() => handleSelect(option.value)}
-            >
-              {option.label}
-            </button>
-          ))}
+        <div className="dropdown-content">
+          <div className='dropdown-menu'>
+            {filterGroup.options.map((option) => (
+              <button
+                key={option.value}
+                className={`dropdown-item ${selectedValues.includes(option.value) ? 'selected' : ''}`}
+                onClick={() => handleSelect(option.value)}
+              >
+                {option.label}
+              </button>
+            ))}
+          </div>
+          <div className="dropdown-actions">
+            <button onClick={() => onSelect(filterGroup.key, [])}>초기화</button>
+            <button onClick={() => handleApply()} className="apply-button">적용하기</button>
+          </div>
         </div>
       )}
     </div>
