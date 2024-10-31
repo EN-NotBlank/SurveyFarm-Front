@@ -1,49 +1,32 @@
 import { useEffect, useRef, useState } from "react";
 import "./ai_answer.css";
 
-const AiAnswer = () => {
-    const [answers, setAnswers] = useState<string[]>([]);
-    const [page, setPage] = useState(1);
-    const loader = useRef(null);
+interface AiAnswerProps {
+    answers: string[]; 
+}
 
-    const allAnswers = [
-        "Answer 1 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad",
-        "Answer 2 aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaad",
-        "Answer 3",
-        "Answer 4",
-        "Answer 5",
-        "Answer 6",
-        "Answer 7",
-        "Answer 8",
-        "Answer 9",
-        "Answer 10",
-        "Answer 11",
-        "Answer 12",
-        "Answer 13",
-        "Answer 14",
-        "Answer 15",
-        "Answer 16",
-        "Answer 17",
-        "Answer 18",
-        "Answer 19",
-        "Answer 20",
-    ];
+const AiAnswer: React.FC<AiAnswerProps> = ({ answers }) => {
+    const [displayedAnswers, setDisplayedAnswers] = useState<string[]>([]);
+    const [summary, setSummary] = useState<string>("");
+    const [page, setPage] = useState(1);
+    const [isLoading, setIsLoading] = useState(false);
+    const loader = useRef<HTMLDivElement | null>(null);
 
     const fetchAnswers = (pageNum: number) => {
-        return allAnswers.slice((pageNum - 1) * 5, pageNum * 5);
+        return answers.slice((pageNum - 1) * 5, pageNum * 5);
     };
 
     useEffect(() => {
         const loadAnswers = () => {
             const newAnswers = fetchAnswers(page);
-            setAnswers((prevAnswers) => {
+            setDisplayedAnswers((prevAnswers) => {
                 const uniqueAnswers = Array.from(new Set([...prevAnswers, ...newAnswers]));
                 return uniqueAnswers;
             });
         };
 
         loadAnswers();
-    }, [page]);
+    }, [page, answers]); 
 
     useEffect(() => {
         const observer = new IntersectionObserver(
@@ -66,21 +49,62 @@ const AiAnswer = () => {
         };
     }, []);
 
+    useEffect(() => {
+        const summarizeAnswers = async () => {
+            if (displayedAnswers.length === 0) return;
+
+            setIsLoading(true);
+            try {
+                const apiUrl = import.meta.env.VITE_API_URL;
+                const requestBody = { answers: displayedAnswers };
+                
+                const response = await fetch(`${apiUrl}/gpt/summarize`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(requestBody), 
+                });
+
+                const contentType = response.headers.get("Content-Type");
+
+                if (response.ok && contentType && contentType.includes("application/json")) {
+                    const data = await response.json();
+                    setSummary(data.summary);
+                } else if (response.ok) {
+                    const errorText = await response.text();
+                    setSummary(errorText); 
+                } else {
+                    const errorText = await response.text();
+                    console.error("Failed to fetch summary:", errorText);
+                }
+            } catch (error) {
+                console.error("Error fetching summary:", error);
+            } finally {
+                setIsLoading(false);
+            }
+        };
+
+        summarizeAnswers();
+    }, [displayedAnswers]);
+
     return (
         <div className="Result_page_short_answer_ai">
             <div className="Result_page_short_answer_ai_list">
-                {answers.map((answer, index) => (
+                {displayedAnswers.map((answer, index) => (
                     <div key={index} className="answer-item">
                         {answer}
                     </div>
                 ))}
-                {answers.length < allAnswers.length && (
+                {displayedAnswers.length < answers.length && !isLoading && (
                     <div ref={loader} className="loading">
                         Loading...
                     </div>
                 )}
             </div>
-            <div className="Result_page_short_answer_ai_summary"></div>
+            <div className="Result_page_short_answer_ai_summary">
+                {isLoading ? <p>Summarizing...</p> : summary && <p>{summary}</p>}
+            </div>
         </div>
     );
 };

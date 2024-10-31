@@ -24,8 +24,8 @@
   }
   
   .custom-checkbox .checkbox-input:checked + .custom-checkmark {
-    background-color: #77B9F2;
-    border-color: #77B9F2;
+    background-color: #3b82f6;
+    border-color: #3b82f6;
   }
   
   .custom-checkmark::after {

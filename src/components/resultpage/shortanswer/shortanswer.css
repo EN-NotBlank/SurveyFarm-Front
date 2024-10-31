@@ -1,7 +1,7 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap');
 
 .Result_page_short_answer {
-    width: 85%;
+    width: 65%;
     min-height: 200px;
     padding: 10px;
     margin-top: 40px;
@@ -13,7 +13,7 @@
 
 .Result_page_short_answer .Result_page_short_answer_answer {
     position: relative;
-    background-color: #F6FAF9;
+    background-color: #eff6ff;
     border: 2px solid rgba(129, 129, 129, 0.1);
     width: 100%;
     height: auto;
@@ -28,7 +28,7 @@
 .Result_page_short_answer_answer .Result_page_short_answer_wordcloud {
     position: relative;
     justify-content: left;
-    background-color: #f6faf9;
+    background-color: #eff6ff;
     border: 2px solid rgba(129, 129, 129, 0.1);
     border-radius: 1.5vw;
     margin: 10px;
@@ -45,7 +45,7 @@
     display: flex;
     text-align: left;
     font-size: 18px;
-    background-color: #f6faf9;
+    background-color: #eff6ff;
     border-radius: 1.5vw;
     margin: 2%;
     padding: 2%;

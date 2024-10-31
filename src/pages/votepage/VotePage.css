@@ -17,7 +17,7 @@
     text-align: center;
     align-items: center;
     min-height: 100vh;
-    padding-top: 10px;
+    padding-top: 0px;
     padding-bottom: 10px;
     
     justify-content: center;
@@ -25,9 +25,9 @@
 
 .Vote_page_submit_button{
     color: white;
-    background: #77B9F2;
+    background: #3b82f6;
     padding: 0.375rem 0.75rem;
-    border: 1px solid #77B9F2;
+    border: 1px solid #3b82f6;
     border-radius: 0.25rem;
     font-size: 20px;
     line-height: 1.5;
