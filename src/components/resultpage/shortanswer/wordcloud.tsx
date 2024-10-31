@@ -1,6 +1,6 @@
 import React from "react";
 import WordCloud from "react-wordcloud";
-import './WordCloud.css';
+import './wordcloud.css';
 
 interface WordCloudBoxProps {
   words: { text: string; value: number }[];
