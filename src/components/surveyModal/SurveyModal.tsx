@@ -33,7 +33,7 @@ const SurveyModal: React.FC<SurveyModalProps> = ({ surveyId, isOpen, onClose }) 
 
     // 참여하기 버튼 클릭 처리
     const handleParticipate = () => {
-        navigate(`/surveypage/${surveyId}`); // 참여 페이지로 이동
+        navigate(`/votepage/${surveyId}`); // 참여 페이지로 이동
     };
 
     useEffect(() => {
