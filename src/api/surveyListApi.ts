@@ -88,8 +88,6 @@ export const fetchSurveys = async (params: SurveyFilterParams): Promise<SurveyAp
     console.log(filteredSurveys)
 
     // 페이지 처리
-    const startIndex = (params.page || 1 - 1) * (params.pageSize || 12);
-    const paginatedSurveys = filteredSurveys.slice(startIndex, startIndex + (params.pageSize || 12));
 
     return {
       surveys: filteredSurveys,
