@@ -1,32 +1,75 @@
 import { useEffect, useState } from 'react';
-import { fetchSurveys } from '../../api/__test__/SurvetListApiTest';
+import { useLocation, useNavigate } from 'react-router-dom';
+import { fetchSurveys } from '../../api/surveyListApi';
 import { filterGroups } from '../../types/FilterOption';
 import { SurveyCard, SurveyFilterParams } from '../../types/SurveyCard';
 import FilterDropdown from '../surveyFilter/SurveyFilterDropdown';
 import './SurveyList.css';
 
-const SurveyList: React.FC = () => {
-  const [surveys, setSurveys] = useState<SurveyCard[]>([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState<string | null>(null);
-  const [filters, setFilters] = useState<SurveyFilterParams>({
-    job: [],
-    region: [],
-    gender: '',
-    age: [],
-    page: 1,
-    pageSize: 12,
-    search: '',
-  });
 
-  // 필터 적용을 위한 상태 설정
-  const [appliedFilters, setAppliedFilters] = useState<SurveyFilterParams>(filters);
 
+interface SurveyListProps{
+    onSurveyClick: (id: number) => void
+}
+
+const SurveyList: React.FC<SurveyListProps> = ({ onSurveyClick }) => {
+    const navigate = useNavigate();
+    const location = useLocation();
+    const [surveys, setSurveys] = useState<SurveyCard[]>([]);
+    const [loading, setLoading] = useState(true);
+    const [error, setError] = useState<string | null>(null);
+    const [filters, setFilters] = useState<SurveyFilterParams>({
+        job: [],
+        region: [],
+        gender: [],
+        age: [],
+        page: 1,
+        pageSize: 12,
+        search: '',
+    });
+
+    // 필터 적용을 위한 상태 설정
+    const [appliedFilters, setAppliedFilters] = useState<SurveyFilterParams>(filters);
+  
+    // URL에서 쿼리 파라미터를 읽어서 필터 설정
+    useEffect(() => {
+        const params = new URLSearchParams(location.search);
+        const newFilters: SurveyFilterParams = {
+        job: params.getAll('job'),
+        region: params.getAll('region'),
+        gender: params.getAll('gender') || '',
+        age: params.getAll('age'),
+        page: Number(params.get('page')) || 1,
+        pageSize: 12,
+        search: params.get('search') || '',
+        };
+        setFilters(newFilters);
+    }, [location.search]);
+
+    // 필터를 바꿀 때마다 URL 업데이트
+    useEffect(() => {
+    const params = new URLSearchParams();
+        for (const key in filters) {
+            if (Object.prototype.hasOwnProperty.call(filters, key)) {
+                const typedKey = key as keyof SurveyFilterParams; // key를 SurveyFilterParams의 키로 타입 단언
+                if (Array.isArray(filters[typedKey])) {
+                    filters[typedKey].forEach(value => params.append(typedKey, value));
+                } 
+                else if (filters[typedKey]) {
+                    params.set(typedKey, String(filters[typedKey]));
+                }
+            }
+        }
+    }, [filters, navigate]);
+
+    
   useEffect(() => {
     const loadSurveys = async () => {
       try {
         setLoading(true);
+        console.log("sddd")
         const response = await fetchSurveys(appliedFilters);
+        console.log(response);
         setSurveys(response.surveys);
         setError(null);
       } catch (err) {
@@ -92,32 +135,31 @@ const SurveyList: React.FC = () => {
 
       <div className="grid">
         {surveys.map((card) => (
-          <div key={card.id} className="card">
+          <div key={card.id} className="card" onClick={() => onSurveyClick(card.id)}>
             <div className="survey-image">
-              <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor">
-                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} 
-                      d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4" />
-              </svg>
+                {card.surveyInfo.imgUrl && (
+                                    <img 
+                                        src={card.surveyInfo.imgUrl} 
+                                        alt="설문조사 이미지" 
+                                        className="card-image"
+                                    />
+                                )}
             </div>
             <h3 className="card-title">{card.title}</h3>
-            <p className="card-subtitle">{card.subtitle}</p>
+            <p className="card-subtitle">{card.surveyInfo.nickName}</p>
 
-            <div className="tags">
-              {card.tags.map((tag, i) => (
-                <span key={i} className="tag">#{tag}</span>
-              ))}
-            </div>
+            <p className='card-description'>{card.surveyInfo.description}</p>
 
             <div className="progress-bar">
               <div 
                 className="progress-value" 
-                style={{ width: `${card.progress}%` }}
+                style={{ width: `${(card.surveyInfo.currentHeadCnt/card.surveyInfo.maxHeadCnt * 100)}%` }}
               />
             </div>
             
             <div className="card-footer">
-              <span>종료일: {card.endDate}</span>
-              <span>참여자: {card.participants}명</span>
+              <span>종료일: {card.surveyInfo.endAt}</span>
+              <span>참여자: {card.surveyInfo.currentHeadCnt}명</span>
             </div>
           </div>
         ))}

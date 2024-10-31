@@ -7,16 +7,13 @@ const GlobalNav = () => {
                 <a href='/main' className='logo'>boatvote</a>
                 <ul className='globalnav-list'>
                     <li className='globalnav-submenu-trigger-item'>
-                        <a href='/main' className='globalnav-submenu-trigger-link'>menu1</a>
-                    </li>
-                    <li className='globalnav-submenu-trigger-item'>
                         <a className='globalnav-submenu-trigger-link' href='/search-survey'>설문조사</a>
                     </li>
                     <li className='globalnav-submenu-trigger-item'>
-                        <a className='globalnav-submenu-trigger-link'>menu1</a>
+                        <a className='globalnav-submenu-trigger-link' href='/mypage'>마이페이지</a>
                     </li>
                 </ul>
-                <a href='/main' className='globalnav-submenu-trigger-link'>로그인</a>
+                <a href='/login' className='globalnav-submenu-trigger-link'>로그인</a>
             </div>
         </div>
     )

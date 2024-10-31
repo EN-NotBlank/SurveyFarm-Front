@@ -30,6 +30,12 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
   }, []);
 
   const handleSelect = (value: string) => {
+    // "전체"를 선택했을 경우 모든 선택된 값 초기화
+    if (value === '전체') {
+      onSelect(filterGroup.key, []);
+      return;
+    }
+
     const currentIndex = selectedValues.indexOf(value);
     let newValues: string[];
 
@@ -41,11 +47,11 @@ const FilterDropdown: React.FC<FilterDropdownProps> = ({
 
     onSelect(filterGroup.key, newValues);
   };
-  
-  //handle apply
+
+  // handle apply
   const handleApply = () => {
-    onApply()
-    setIsOpen(false)
+    onApply();
+    setIsOpen(false);
   }
 
   // 선택된 값 표시하는 함수

@@ -1,8 +1,8 @@
-import React, { useEffect, useState } from 'react';
-import "./multichoice.css";
-import ResultPieChart from "../multichoice/resultpiechart";
+import { useEffect, useState } from 'react';
 import QuestionBox from '../../questionbox/question';
 import QuestionImage from '../../questionimage/QuestionImage';
+import ResultPieChart from "../multichoice/resultpiechart";
+import "./multichoice.css";
 
 const MultiChoice = () => {
   const [answers, setAnswers] = useState<string[]>([]);
