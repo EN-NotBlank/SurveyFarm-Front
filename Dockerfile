@@ -1,29 +1,17 @@
-# 첫 번째 스테이지: 빌드
-FROM node:18 AS build
+FROM node:18
+
+# 경로 설정하기
 WORKDIR /app
+COPY package.json .
 
 # 의존성 설치
-COPY package.json package-lock.json ./
-RUN npm install --legacy-peer-deps
+RUN npm install
 
-# 애플리케이션 소스 복사
 COPY . .
+# 현재 디렉토리의 모든 파일을 도커 컨테이너의 Working Directory에 복사합니다.
 
-# Vite 빌드
-RUN npm run build
-
-# 두 번째 스테이지: 프로덕션 이미지
-FROM node:18
-WORKDIR /app
-
-# 빌드된 파일 복사
-COPY --from=build /app/dist ./dist
-
-# 정적 파일을 서빙하기 위해 serve 설치
-RUN npm install -g serve
-
-# 포트 노출
+# 프로젝트의 포트 번호를 사용합니다
 EXPOSE 3000
 
-# 정적 파일 서빙
-CMD ["serve", "-s", "dist"]
+# npm start 스크립트 실행
+CMD ["npm", "run", "dev"]
