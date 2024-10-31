@@ -39,7 +39,7 @@ export interface SurveyApiResponse {
 }
 
 export interface SurveyFilterParams {
-    job?: string[];
+    job?: string[] ;
     region?: string[];
     gender?: string[];
     age?: string[];

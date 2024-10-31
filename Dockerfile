@@ -1,11 +1,4 @@
-# 빌드 단계
-FROM node:18 AS build
-WORKDIR /app
-COPY . .
-RUN npm install
-RUN npm run build  # Vite 프로젝트 빌드
 
-# 실행 단계
 FROM node:18
 WORKDIR /app
 COPY --from=build /app/dist ./dist  # dist 폴더만 복사

@@ -19,8 +19,6 @@ export const fetchSurveys = async (params: SurveyFilterParams): Promise<SurveyAp
     const data = await response.json();
     const isExistValue = (value : any) =>{
         if (Array.isArray(value)) {
-            console.log(value);
-            console.log(value.length > 0 && value[0] !=='전체');
             return value.length > 0 && value[0] !=='전체'; // 배열의 길이가 0보다 크면 true, 아니면 false
         }
         
@@ -62,9 +60,9 @@ export const fetchSurveys = async (params: SurveyFilterParams): Promise<SurveyAp
     // 필터링 로직
     let filteredSurveys = transformedSurveys;
 
-    if (isExistValue(params.job)) {
+    if (isExistValue(params.job) && Array.isArray(params.job)) {
       filteredSurveys = filteredSurveys.filter(survey => 
-        survey.filters.jobList.some(jobItem => params.job.includes(jobItem))
+        survey.filters.jobList.some(jobItem => params.job && params.job.includes(jobItem))
       );
     }
 
@@ -76,13 +74,14 @@ export const fetchSurveys = async (params: SurveyFilterParams): Promise<SurveyAp
 
     if (isExistValue(params.gender)) {
       filteredSurveys = filteredSurveys.filter(survey => 
+        params.gender &&
         survey.filters.genderList.includes(params.gender[0])
       );
     }
 
     if (isExistValue(params.age)) {
       filteredSurveys = filteredSurveys.filter(survey => 
-        survey.filters.ageList.some(ageRange => params.age.includes(ageRange))
+        survey.filters.ageList.some(ageRange => params.age && params.age.includes(ageRange))
       );
     }
 

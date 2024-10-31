@@ -17,7 +17,7 @@ spec:
         - name: regcred
       containers:
         - name: boatvote-web-container
-          image: nl8ir2on.kr.private-ncr.ntruss.com/boatvote-server:0.1
+          image: nl8ir2on.kr.private-ncr.ntruss.com/boatvote-web:0.1
           ports:
             - containerPort: 3000
           env:
