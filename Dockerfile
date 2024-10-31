@@ -1,4 +1,4 @@
-FROM node:22
+FROM node:20
 # 경로 설정하기
 WORKDIR /app
 COPY package.json .
