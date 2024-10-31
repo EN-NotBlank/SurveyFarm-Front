@@ -1,10 +1,10 @@
 
 import React, { useEffect, useState } from "react";
-import { useParams, useNavigate } from "react-router-dom"; 
-import "./ResultPage.css";
+import { useNavigate, useParams } from "react-router-dom";
 import MultiChoice from "../../components/resultpage/multichoice/multichoice";
 import ShortAnswer from "../../components/resultpage/shortanswer/shortanswer";
 import Layout from '../../layouts/layout/Layout';
+import "./ResultPage.css";
 
 interface QuestionOption {
   text: string;
@@ -89,7 +89,6 @@ const ResultPage: React.FC = () => {
       </div>
     </Layout>
   );
->>>>>>> origin/hyeyeon
 };
 
 export default ResultPage;
