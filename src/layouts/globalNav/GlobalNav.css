@@ -2,13 +2,12 @@
 .globalnav-wrapper{
     width: 100%;
     height: 48px;
-    margin: 120;
     position : fixed;
     z-index : 9999;
     backdrop-filter: blur(20px) saturate(80%);
     display:flex;
     justify-content: center;
-    
+    top: 0;
 }
 
 .globalnav-contents{

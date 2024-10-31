@@ -5,7 +5,7 @@ export const filterGroups: FilterGroup[] = [
     title: '직무',
     key: 'job',
     options: [
-      { value: '', label: '전체' },
+      { value: '전체', label: '전체' },
       { value: '기획·전략', label: '기획·전략' },
       { value: '법무·사무·총무', label: '법무·사무·총무' },
       { value: '인사·HR', label: '인사·HR' },
@@ -35,7 +35,7 @@ export const filterGroups: FilterGroup[] = [
     title: '거주지',
     key: 'region',
     options: [
-      { value: '', label: '전체' },
+      { value: '전체', label: '전체' },
       { value: '서울', label: '서울' },
       { value: '경기', label: '경기' },
       { value: '인천', label: '인천' },
@@ -60,16 +60,16 @@ export const filterGroups: FilterGroup[] = [
     title: '성별',
     key: 'gender',
     options: [
-      { value: '', label: '전체' },
-      { value: '남성', label: '남성' },
-      { value: '여성', label: '여성' }
+      { value: '전체', label: '전체' },
+      { value: '남자', label: '남성' },
+      { value: '여자', label: '여성' }
     ]
   },
   {
     title: '연령',
     key: 'age',
     options: [
-      { value: '', label: '전체' },
+      { value: '전체', label: '전체' },
       { value: '10대', label: '10대' },
       { value: '20대', label: '20대' },
       { value: '30대', label: '30대' },

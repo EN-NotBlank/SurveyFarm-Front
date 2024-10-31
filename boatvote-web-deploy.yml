@@ -20,4 +20,5 @@ spec:
           image: nl8ir2on.kr.private-ncr.ntruss.com/boatvote-server:0.1
           ports:
             - containerPort: 3000
+            
 

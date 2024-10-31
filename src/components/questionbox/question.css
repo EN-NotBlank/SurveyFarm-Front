@@ -3,7 +3,7 @@
 
 .Result_page_question {
     position: relative;
-    background-color: #77B9F2;
+    background-color: #3b82f6;
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing : antialiased;
     -moz-osx-font-smoothing: grayscale;
@@ -16,7 +16,7 @@
     align-items: flex-start;
     text-align: flex-start;
     color: white;
-    font-size: 20px;
+    font-size: 18px;
     word-wrap: break-word;
     word-break: break-word;
     white-space: normal;

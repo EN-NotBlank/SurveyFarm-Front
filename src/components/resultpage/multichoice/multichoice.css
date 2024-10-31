@@ -2,8 +2,8 @@
 
 
 .Result_page_multiple_choice {
-    width: 85%;
-    min-height: 200px;
+    width: 65%;
+    min-height: 150px;
     padding: 10px;
     margin-top: 40px;
     margin-left: auto;
@@ -14,7 +14,7 @@
 
 .Result_page_multiple_choice .Result_page_multiple_choice_answer {
     position: relative;
-    background-color: #F6FAF9;
+    background-color: #eff6ff;
     border: 2px solid rgba(129, 129, 129, 0.1);
     width: 100%;
     height: auto;
@@ -34,8 +34,8 @@
     font-family: 'Poppins', sans-serif;
     -webkit-font-smoothing : antialiased;
     -moz-osx-font-smoothing: grayscale;
-    font-size: 20px;
-    background-color: #f6faf9;
+    font-size: 17px;
+    background-color: #eff6ff;
     border-radius: 15px;
     margin: 10px;
     text-align: left;

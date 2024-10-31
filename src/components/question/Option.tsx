@@ -6,7 +6,7 @@ interface OptionProp {
     disabled: boolean;
 }
 
-const Option: React.FC<OptionProp> = ({ oid, index, onDelete, disabled, onChange }) => {
+const Option: React.FC<OptionProp> = ({ index, onDelete, disabled, onChange }) => {
     return (
         <div className="flex px-2 py-2">
             <h1 className="text-xl font-bold px-2">

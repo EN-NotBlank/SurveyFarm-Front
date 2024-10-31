@@ -1,5 +1,5 @@
 .Short_Answer_Vote{
-    width: 85%;
+    width: 65%;
     min-height: 200px;
     padding: 10px;
     margin-top: 40px;
@@ -11,7 +11,7 @@
 
 .Short_Answer_Vote .Short_Answer_Vote_answer{
     position: relative;
-    background-color: #F6FAF9;
+    background-color: #eff6ff;
     border: 2px solid rgba(129, 129, 129, 0.1);
     width: 100%;
     height: auto;
