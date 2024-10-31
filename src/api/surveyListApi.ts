@@ -14,6 +14,7 @@ export const fetchSurveys = async (params: SurveyFilterParams): Promise<SurveyAp
 
   try {
     // API 호출
+    console.log(apiUrl);
     const response = await fetch(`${apiUrl}/survey?${queryParams}`);
     if (!response.ok) throw new Error('Failed to fetch surveys');
     const data = await response.json();
