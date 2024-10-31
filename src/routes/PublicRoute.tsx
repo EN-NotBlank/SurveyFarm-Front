@@ -13,12 +13,12 @@ const PublicRouter = () => {
                 <Route path="/" element={<App />}></Route>
                 <Route path="/requestSurvey" element={<RequestSurvey />}></Route>
                 <Route path="/test" element={<RouterTestPage />}></Route>
-                <Route path="resultpage" element={<ResultPage />}></Route>
-                <Route path ="votepage" element={<VotePage/>}></Route>
+                <Route path="/resultpage/:surveyId" element={<ResultPage />}></Route>
+                <Route path ="/votepage/:surveyId" element={<VotePage/>}></Route>
                 <Route path="/search-survey" element={<SurveySearchPage/>}></Route>
             </Routes>
         </BrowserRouter>
     )
 }
 
-export default PublicRouter
+export default PublicRouter;

@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import "./VotePage.css";
 import MultiChoiceVote from "../../components/votepage/MultiChoiceVote";
 import ShortAnswerVote from "../../components/votepage/ShortAnswerVote";
+import Layout from '../../layouts/layout/Layout';
 
 interface QuestionOption {
   text: string;
@@ -31,16 +33,18 @@ interface SurveyData {
 
 interface Answer {
   qid: number;
-  answer: string | string[];
+  uid: number;
+  text: string | string[];
 }
 
 const VotePage: React.FC = () => {
+  const { surveyId } = useParams<{ surveyId: string }>();
   const [questions, setQuestions] = useState<Question[]>([]);
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
-
-  const surveyId = 2; 
+  
+  const uid = 2;
 
   useEffect(() => {
     const fetchQuestions = async () => {
@@ -49,7 +53,7 @@ const VotePage: React.FC = () => {
         const response = await fetch(`${apiUrl}/survey/${surveyId}`, {
           method: 'GET',
           headers: {
-            'Authorization': `Bearer`, 
+            'Authorization': `Bearer`,
             'Content-Type': 'application/json',
           },
         });
@@ -60,11 +64,7 @@ const VotePage: React.FC = () => {
         setQuestions(data.questionList); 
       } catch (err) {
         console.error("Fetch error:", err);
-        if (err instanceof Error) {
-          setError(err.message);
-        } else {
-          setError("An unknown error occurred");
-        }
+        setError(err instanceof Error ? "Failed to load questions. Please try again." : "An unknown error occurred");
       } finally {
         setLoading(false);
       }
@@ -72,6 +72,47 @@ const VotePage: React.FC = () => {
 
     fetchQuestions();
   }, [surveyId]);
+
+  const handleAnswerChange = (qid: number, uid: number, answer: string | string[]) => {
+    setAnswers((prevAnswers) => {
+      const updatedAnswers = prevAnswers.filter((a) => a.qid !== qid);
+      return [...updatedAnswers, { qid, uid, text: answer }];
+    });
+  };
+
+  const handleSubmitAnswers = () => {
+    console.log("Submitted Answers:", answers);
+
+    const apiUrl = import.meta.env.VITE_API_URL;
+
+    const submitData = answers.flatMap(answer =>
+      Array.isArray(answer.text)
+        ? answer.text.map(text => ({ uid, qid: answer.qid, text }))
+        : [{ uid, qid: answer.qid, text: answer.text }]
+    );
+
+    fetch(`${apiUrl}/answer/submit-answers`, {
+      method: "POST",
+      headers: {
+        'Authorization': `Bearer YOUR_TOKEN_HERE`,
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({ surveyId: Number(surveyId), answers: submitData }),
+    })
+    .then(response => {
+      if (!response.ok) {
+        throw new Error(`HTTP error! status: ${response.status}`);
+      }
+      return response.json();
+    })
+    .then(data => {
+      console.log("Answers submitted successfully:", data);
+    })
+    .catch(error => {
+      console.error("Error submitting answers:", error);
+      setError("Failed to submit answers. Please try again.");
+    });
+  };
 
   if (loading) {
     return <div>Loading...</div>;
@@ -85,59 +126,24 @@ const VotePage: React.FC = () => {
     return <div>No questions available.</div>;
   }
 
-  const handleAnswerChange = (qid: number, answer: string | string[]) => {
-    setAnswers((prevAnswers) => {
-      const updatedAnswers = prevAnswers.filter((a) => a.qid !== qid);
-      return [...updatedAnswers, { qid, answer }];
-    });
-  };
-
-  const handleSubmitAnswers = () => {
-    console.log("Submitted Answers:", answers);
-    
-    // 서버에 전송하려면 다음과 같이 fetch를 사용합니다:
-    /*
-    const apiUrl = import.meta.env.VITE_API_URL;
-    fetch(`${apiUrl}/submit-answers`, {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer`, 
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ surveyId, answers }),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Answers submitted successfully:", data);
-    })
-    .catch(error => {
-      console.error("Error submitting answers:", error);
-    });
-    */
-  };
-
   return (
-    <div className="vote-page-body">
-      {questions.map((question,index) => (
+    <Layout>
+      <div className="vote-page-body">
+      {questions.map((question, index) => (
         <div key={question.qid}>
           {question.questionType === "MC" ? (
             <MultiChoiceVote
               isMultipleChoice={question.isMultipleAnswer}
               answers={question.optionList.map(option => option.text)}
               question={question.title}
-              id={index + 1} 
-              onAnswerChange={(answer) => handleAnswerChange(question.qid, answer)}
+              id={index + 1}
+              onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
             />
           ) : (
             <ShortAnswerVote
               question={question.title}
-              id={index + 1} 
-              onAnswerChange={(answer) => handleAnswerChange(question.qid, answer)}
+              id={index + 1}
+              onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
             />
           )}
         </div>
@@ -146,6 +152,7 @@ const VotePage: React.FC = () => {
             <button className="Vote_page_submit_button" onClick={handleSubmitAnswers}>제출</button>
         </div>    
       </div>
+    </Layout>
   );
 };
 

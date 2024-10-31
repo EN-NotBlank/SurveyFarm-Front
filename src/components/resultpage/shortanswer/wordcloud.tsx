@@ -16,10 +16,10 @@ const getRandomColor = () => {
 };
 
 const options = {
-    rotations: 2,
-    rotationAngles: [-90, 0] as [number, number], 
+    rotations: 0,
+    rotationAngles: [0, 0] as [number, number], 
     fontSizes: [20, 100] as [number,number],   
-     
+    spiral: 'archimedean' as const, 
   };
 
   

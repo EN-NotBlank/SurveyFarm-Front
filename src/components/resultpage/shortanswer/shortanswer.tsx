@@ -1,42 +1,65 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import "./shortanswer.css";
 import QuestionBox from "../../questionbox/question";
 import WordCloudBox from "../shortanswer/wordcloud";
 import AiAnswer from "./ai_answer";
 import QuestionImage from "../../questionimage/QuestionImage";
 
-const ShortAnswer: React.FC = () =>{
-    
-    const question = "2. What is the capital of France?";
-    const imageUrl ="https://cdn-icons-png.flaticon.com/128/14919/14919351.png";
+interface ShortAnswerProps {
+    question: {
+        qid: number;
+        title: string;
+    };
+    id: number;
+}
 
-    const words: { text: string; value: number }[] = [
-        { text: "Paris", value: 100 },
-        { text: "France", value: 80 },
-        { text: "Capital", value: 60 },
-        { text: "Eiffel Tower", value: 50 },
-        { text: "Louvre", value: 40 },
-        { text: "Seine", value: 30 },
-        { text: "Notre Dame", value: 20 },
-        { text: "Croissant", value: 10 },
-        { text: "Tourism", value: 5 },
-        { text: "French Revolution", value: 4 },
-        { text: "a", value: 3 },
-        { text: "b", value: 2 },
-      ];
+const ShortAnswer: React.FC<ShortAnswerProps> = ({ question, id }) => {
+    const [answers, setAnswers] = useState<string[]>([]);
+    const [words, setWords] = useState<{ text: string; value: number }[]>([]);
+    const imageUrl = "https://cdn-icons-png.flaticon.com/128/14919/14919351.png";
 
-      const topKeywords = words
-    .sort((a, b) => b.value - a.value)
-    .slice(0, 10)
-    .map(word => word.text);
+    useEffect(() => {
+        const fetchAnswers = async () => {
+            try {
+                const apiUrl = import.meta.env.VITE_API_URL;
+                const response = await fetch(`${apiUrl}/answer/result/${question.qid}`);
+                const data = await response.json();
+                setAnswers(data.result);
 
-    return(
+                const keywordResponse = await fetch(`${apiUrl}/gpt/split`, {
+                    method: "POST",
+                    headers: {
+                        "Content-Type": "application/json",
+                    },
+                    body: JSON.stringify(data.result),
+                });
+                const keywordData = await keywordResponse.json();
+
+                const updatedWords = keywordData.map((item: Record<string, number>) => {
+                    const [text, value] = Object.entries(item)[0];
+                    return { text, value };
+                });
+                setWords(updatedWords);
+            } catch (error) {
+                console.error("Error fetching answers or keywords:", error);
+            }
+        };
+
+        fetchAnswers();
+    }, [question.qid]);
+
+    const topKeywords = words
+        .sort((a, b) => b.value - a.value)
+        .slice(0, 10)
+        .map(word => word.text);
+
+    return (
         <div className="Result_page_short_answer">
-            <QuestionBox questionText={question}/>
+            <QuestionBox questionText={`${id}. ${question.title}`} />
             <div className="Result_page_short_answer_answer">
                 <QuestionImage imageUrl={imageUrl} />
-                <div className="Result_page_short_answer_wordcloud"> 
-                    <WordCloudBox words={words}/>
+                <div className="Result_page_short_answer_wordcloud">
+                    <WordCloudBox words={words} />
                 </div>
                 <div className="Result_page_short_answer_keyword">
                     <ul>
@@ -47,9 +70,9 @@ const ShortAnswer: React.FC = () =>{
                     </ul>
                 </div>
             </div>
-            <AiAnswer />
+            <AiAnswer answers={answers} />
         </div>
     );
-}
+};
 
 export default ShortAnswer;

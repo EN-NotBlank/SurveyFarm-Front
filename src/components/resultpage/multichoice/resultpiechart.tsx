@@ -41,7 +41,7 @@ class ResultPieChart extends React.Component<ResultPieChartProps, ResultPieChart
       series: props.series,
       options: {
         chart: {
-          width: 500,
+          width: 400,
           type: 'pie' as ChartType,
         },
         labels: this.generateLabels(props.series.length),
@@ -50,7 +50,7 @@ class ResultPieChart extends React.Component<ResultPieChartProps, ResultPieChart
           breakpoint: 480,
           options: {
             chart: {
-              width: 200,
+              width: 150,
             },
             legend: {
               position: 'bottom',
@@ -67,7 +67,7 @@ class ResultPieChart extends React.Component<ResultPieChartProps, ResultPieChart
         series: this.props.series,
         options: {
           ...this.state.options,
-          labels: this.generateLabels(this.props.series.length),
+          labels: this.props.labels, 
           colors: this.getRandomColors(this.props.series.length), 
         }
       });
