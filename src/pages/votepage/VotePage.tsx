@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import "./VotePage.css";
 import MultiChoiceVote from "../../components/votepage/MultiChoiceVote";
 import ShortAnswerVote from "../../components/votepage/ShortAnswerVote";
@@ -28,7 +28,7 @@ interface SurveyData {
   point: number;
   endAt: string;
   description: string | null;
-  questionList: Question[];
+  questions: Question[];
 }
 
 interface Answer {
@@ -43,6 +43,7 @@ const VotePage: React.FC = () => {
   const [loading, setLoading] = useState<boolean>(true);
   const [error, setError] = useState<string | null>(null);
   const [answers, setAnswers] = useState<Answer[]>([]);
+  const navigate = useNavigate();
   
   const uid = 2;
 
@@ -61,7 +62,7 @@ const VotePage: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data: SurveyData = await response.json();
-        setQuestions(data.questionList); 
+        setQuestions(data.questions); 
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err instanceof Error ? "Failed to load questions. Please try again." : "An unknown error occurred");
@@ -82,35 +83,42 @@ const VotePage: React.FC = () => {
 
   const handleSubmitAnswers = () => {
     console.log("Submitted Answers:", answers);
-
+  
     const apiUrl = import.meta.env.VITE_API_URL;
-
-    const submitData = answers.flatMap(answer =>
-      Array.isArray(answer.text)
-        ? answer.text.map(text => ({ uid, qid: answer.qid, text }))
-        : [{ uid, qid: answer.qid, text: answer.text }]
-    );
-
-    fetch(`${apiUrl}/answer/submit-answers`, {
-      method: "POST",
-      headers: {
-        'Authorization': `Bearer YOUR_TOKEN_HERE`,
-        'Content-Type': 'application/json',
-      },
-      body: JSON.stringify({ surveyId: Number(surveyId), answers: submitData }),
-    })
-    .then(response => {
-      if (!response.ok) {
-        throw new Error(`HTTP error! status: ${response.status}`);
-      }
-      return response.json();
-    })
-    .then(data => {
-      console.log("Answers submitted successfully:", data);
-    })
-    .catch(error => {
-      console.error("Error submitting answers:", error);
-      setError("Failed to submit answers. Please try again.");
+  
+    const submitData = answers.map(answer => ({
+      uid: uid,
+      qid: answer.qid,
+      text: Array.isArray(answer.text) ? answer.text.join(", ") : answer.text,
+    }));
+  
+    submitData.forEach((data) => {
+      fetch(`${apiUrl}/answer`, {
+        method: "POST",
+        headers: {
+          'Authorization': `Bearer`,
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(data),
+      })
+      .then(response => {
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`);
+        }
+        return response.json();
+      })
+      .then(responseData => {
+        if (responseData === true) { 
+          navigate("/search-survey"); 
+        }
+      })
+      .then(data => {
+        console.log("Answer submitted successfully:", data);
+      })
+      .catch(error => {
+        console.error("Error submitting answer:", error);
+        setError("Failed to submit answer. Please try again.");
+      });
     });
   };
 
@@ -129,27 +137,27 @@ const VotePage: React.FC = () => {
   return (
     <Layout>
       <div className="vote-page-body">
-      {questions.map((question, index) => (
-        <div key={question.qid}>
-          {question.questionType === "MC" ? (
-            <MultiChoiceVote
-              isMultipleChoice={question.isMultipleAnswer}
-              answers={question.optionList.map(option => option.text)}
-              question={question.title}
-              id={index + 1}
-              onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
-            />
-          ) : (
-            <ShortAnswerVote
-              question={question.title}
-              id={index + 1}
-              onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
-            />
-          )}
-        </div>
-      ))}
+        {questions.map((question, index) => (
+          <div key={question.qid}>
+            {question.questionType === "MC" ? (
+              <MultiChoiceVote
+                isMultipleChoice={question.isMultipleAnswer}
+                answers={question.optionList.map(option => option.text)}
+                question={question.title}
+                id={index + 1}
+                onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
+              />
+            ) : (
+              <ShortAnswerVote
+                question={question.title}
+                id={index + 1}
+                onAnswerChange={(answer) => handleAnswerChange(question.qid, uid, answer)}
+              />
+            )}
+          </div>
+        ))}
         <div className="Vote_page_button-container">
-            <button className="Vote_page_submit_button" onClick={handleSubmitAnswers}>제출</button>
+          <button className="Vote_page_submit_button" onClick={handleSubmitAnswers}>제출</button>
         </div>    
       </div>
     </Layout>

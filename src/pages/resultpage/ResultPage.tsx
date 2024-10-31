@@ -28,7 +28,7 @@ interface SurveyData {
   point: number;
   endAt: string;
   description: string | null;
-  questionList: Question[];
+  questions: Question[]; // questionList에서 questions로 수정
 }
 
 const ResultPage: React.FC = () => {
@@ -53,7 +53,7 @@ const ResultPage: React.FC = () => {
           throw new Error(`HTTP error! status: ${response.status}`);
         }
         const data: SurveyData = await response.json();
-        setQuestions(data.questionList);
+        setQuestions(data.questions); // 수정된 부분 반영
       } catch (err) {
         console.error("Fetch error:", err);
         setError(err instanceof Error ? err.message : "An unknown error occurred");
@@ -75,14 +75,13 @@ const ResultPage: React.FC = () => {
   return (
     <Layout>
       <div className="Result_page_body">
-        {questions.map((question, index) => {
-          if (question.questionType === "MC") {
-            return <MultiChoice key={question.qid} question={question} id={index + 1} />;
-          } else if (question.questionType === "SA") {
-            return <ShortAnswer key={question.qid} question={question} id={index + 1} />;
-          }
-          return null;
-        })}
+        {questions && questions.map((question, index) => (
+          question.questionType === "MC" ? (
+            <MultiChoice key={question.qid} question={question} id={index + 1} />
+          ) : (
+            <ShortAnswer key={question.qid} question={question} id={index + 1} />
+          )
+        ))}
         <div className="Result_page_button-container">
           <button className="Result_page_submit_button" onClick={handleSubmit}>확인</button>
         </div>
